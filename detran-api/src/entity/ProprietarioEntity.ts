@@ -1,14 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'proprietario' })
 export class ProprietarioEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-  @Column({ name: 'cpf' })
+  @PrimaryColumn({ name: 'cpf', unique: true })
   cpf: string;
 
   @Column({ name: 'nome' })
   nome: string;
+
+  @Column({ name: 'email' })
+  email: string;
 
   @Column({ name: 'endereco' })
   endereco: string;

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProprietarioModule } from './module/proprietario.module';
+import { ProprietarioModule } from './module/ProprietarioModule';
 import { ProprietarioEntity } from './entity/ProprietarioEntity';
 
 @Module({
@@ -12,7 +12,7 @@ import { ProprietarioEntity } from './entity/ProprietarioEntity';
       port: 3306,
       username: 'root',
       password: 'root',
-      database: 'DETRAN',
+      database: 'detran',
       entities: [ProprietarioEntity],
       synchronize: true,
     }),

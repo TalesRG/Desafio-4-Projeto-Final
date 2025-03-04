@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { ProprietarioService } from '../service/proprietario.service';
+import { ProprietarioService } from '../service/ProprietarioService';
 import ProprietarioDto from '../dto/ProprietarioDto';
-import { ProprietarioEntity } from '../entity/ProprietarioEntity';
 
 @Controller('proprietario')
 export class ProprietarioController {
@@ -9,13 +8,8 @@ export class ProprietarioController {
 
   @Post()
   async createProprietario(
-    @Body() proprietarioDto: ProprietarioEntity,
+    @Body() proprietarioDto: ProprietarioDto,
   ): Promise<any> {
     return this.proprietarioService.create(proprietarioDto);
-  }
-
-  @Get()
-  async getProprietarios(): Promise<any> {
-    return this.proprietarioService.findOne();
   }
 }
