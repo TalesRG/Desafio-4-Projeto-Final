@@ -1,11 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProprietarioModule } from './module/ProprietarioModule';
-import { ProprietarioEntity } from './entity/ProprietarioEntity';
+import { VeiculoModule } from './module/VeiculoModule';
+import { AuthModule } from './module/AuthModule';
+import { UsuarioModule } from './module/UsuarioModule';
 
 @Module({
   imports: [
+    AuthModule,
+    UsuarioModule,
     ProprietarioModule,
+    VeiculoModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -13,7 +18,7 @@ import { ProprietarioEntity } from './entity/ProprietarioEntity';
       username: 'root',
       password: 'root',
       database: 'detran',
-      entities: [ProprietarioEntity],
+      entities: [__dirname + '/entity/**/*{.ts,.js}'],
       synchronize: true,
     }),
   ],

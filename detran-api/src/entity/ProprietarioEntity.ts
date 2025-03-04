@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany, JoinColumn } from 'typeorm';
+import { VeiculoEntity } from './VeiculoEntity';
 
 @Entity({ name: 'proprietario' })
 export class ProprietarioEntity {

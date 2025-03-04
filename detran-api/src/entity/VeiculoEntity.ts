@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { ProprietarioEntity } from './ProprietarioEntity';
 
 @Entity({ name: 'veiculo' })
 export class VeiculoEntity {
@@ -22,6 +23,10 @@ export class VeiculoEntity {
 
   @Column({ name: 'cpf_proprietario' })
   cpf_proprietario: string;
+
+  @ManyToOne(() => ProprietarioEntity, (proprietario) => proprietario.cpf)
+  @JoinColumn({ name: 'cpf_proprietario' })
+  proprietario: ProprietarioEntity;
 
   @Column({ name: 'id_infracao' })
   id_infracao: number;
