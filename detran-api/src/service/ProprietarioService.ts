@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProprietarioEntity } from '../entity/ProprietarioEntity';
 import { Repository } from 'typeorm';
@@ -13,11 +13,11 @@ export class ProprietarioService {
 
   async create(proprietario: ProprietarioDto): Promise<ProprietarioEntity> {
     if (await this.verificarCpf(proprietario.cpf)) {
-      throw new Error('CPF já cadastrado');
+      throw new HttpException('CPF já cadastrado', HttpStatus.BAD_REQUEST);
     }
 
     if (await this.verificarEmail(proprietario.cpf)) {
-      throw new Error('Email já cadastrado');
+      throw new HttpException('Email já cadastrado', HttpStatus.BAD_REQUEST);
     }
 
     const novoProprietario = new ProprietarioEntity();

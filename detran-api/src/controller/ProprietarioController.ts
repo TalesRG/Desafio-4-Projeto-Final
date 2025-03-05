@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ProprietarioService } from '../service/ProprietarioService';
 import ProprietarioDto from '../dto/ProprietarioDto';
+import { AutenticacaoGuard } from '../guards/AutenticacaoGuard';
 
+@UseGuards(AutenticacaoGuard)
 @Controller('proprietario')
 export class ProprietarioController {
   constructor(private proprietarioService: ProprietarioService) {}

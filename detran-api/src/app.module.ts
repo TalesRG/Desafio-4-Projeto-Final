@@ -13,11 +13,11 @@ import { UsuarioModule } from './module/UsuarioModule';
     VeiculoModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'detran',
+      host: 'localhost', // ADICIONAR AO .ENV FUTURAMENTE
+      port: 3306, // ADICIONAR AO .ENV FUTURAMENTE
+      username: 'root', // ADICIONAR AO .ENV FUTURAMENTE
+      password: 'root', // ADICIONAR AO .ENV FUTURAMENTE
+      database: 'detran', // ADICIONAR AO .ENV FUTURAMENTE
       entities: [__dirname + '/entity/**/*{.ts,.js}'],
       synchronize: true,
     }),
