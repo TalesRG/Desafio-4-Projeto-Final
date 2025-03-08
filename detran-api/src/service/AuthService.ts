@@ -34,7 +34,7 @@ export class AuthService {
       sub: usuario.id_usuario,
       nomeUsuario: usuario.nome,
     };
-
+    console.log('Usuario logado com sucesso');
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
