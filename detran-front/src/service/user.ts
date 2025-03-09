@@ -3,7 +3,6 @@ import {UsuarioLogin} from "@/type/UsuarioLogin";
 import {UsuarioRegister} from "@/type/UsuarioRegister";
 
 export const login = async (data : UsuarioLogin) => {
-
    try {
          const response = await httpClient.post('/auth/login', data)
          return response.data

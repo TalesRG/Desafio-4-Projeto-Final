@@ -7,6 +7,7 @@ import DetranLogo from "@/app/ui/detran-logo";
 import GenericInput from "@/app/ui/generic-form";
 import { register } from "@/service/user";
 import { useRouter } from "next/navigation";
+import {UsuarioRegister} from "@/type/UsuarioRegister";
 
 const LoginPage = () => {
     const router = useRouter(); // Inicialização correta do hook
@@ -23,7 +24,13 @@ const LoginPage = () => {
             return;
         }
         try {
-            await register({ nome, email, senha });
+
+            const data : UsuarioRegister = {
+               nome: nome,
+                email : email,
+               senha : senha,
+            }
+            await register(data);
             setErrorMessage('');
             router.push('/');
         } catch (error: any) {
@@ -78,7 +85,7 @@ const LoginPage = () => {
                     <Button title="Registrar" />
                 </form>
 
-                <a href="/login" className="mt-4 text-sm">Login</a>
+                <a href="/" className="mt-4 text-sm">Login</a>
             </div>
 
             <div className="hidden md:block md:w-1/2">
