@@ -78,7 +78,9 @@ const LoginPage = () => {
                     <Button title="Registrar" />
                 </form>
 
-                <a href="/login" className="mt-4 text-sm">Login</a>
+                <a href="/" className="mt-4 text-blue-600 text-sm">
+                    Login
+                </a>
             </div>
 
             <div className="hidden md:block md:w-1/2">
