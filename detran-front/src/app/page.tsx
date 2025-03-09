@@ -8,6 +8,7 @@ import GenericInput from "./ui/generic-form";
 import {useRouter} from "next/router";
 import {login} from "@/service/user";
 import {router} from "next/client";
+import {UsuarioLogin} from "@/type/UsuarioLogin";
 
 const LoginPage = () => {
 
@@ -19,7 +20,13 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await login(email, senha);
+
+      const data  : UsuarioLogin = {
+        email: email,
+        senha: senha
+      }
+
+      const response = await login(data);
       sessionStorage.setItem('access_token', response.access_token);
 
     } catch (error : any) {
