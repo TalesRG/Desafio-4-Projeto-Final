@@ -13,7 +13,7 @@ const Button = ({ title = '' }: GenericButtonProps) => {
   return (
     <button
       type="submit"
-      className="w-full mt-6 bg-[var(--button-color)] text-white py-2 rounded hover:bg-[var(--button-color-hover)] transition-all"
+      className="w-full mt-6 bg-[var(--button-color)] text-white py-2 rounded hover:bg-[var(--button-color-hover)] transition-all duration-400 cursor-pointer"
     >
       {handleTitle(title)}
     </button>
