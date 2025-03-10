@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${geistSans.className} antialiased`}
+        className={`${geistSans.className} antialiased bg-[var(--background)]`}
       >
         {children}
       </body>
