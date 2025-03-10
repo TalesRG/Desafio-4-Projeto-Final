@@ -2,6 +2,8 @@
 
 :root {
   --background: #F4EDB4;
+  --side-bar-background: #A59B55;
+  --item-selected: #D9D9D9;
   --input-background: #ffffffbd;
   --button-color: #9BBB93;
   --button-color-hover: #6A8B6E;
