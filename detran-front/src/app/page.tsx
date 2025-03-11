@@ -5,13 +5,12 @@ import React, {useState} from "react";
 import Button from "./ui/button";
 import DetranLogo from "./ui/detran-logo";
 import GenericInput from "./ui/generic-form";
-import {useRouter} from "next/router";
+import { useRouter } from "next/navigation";
 import {login} from "@/service/user";
-import {router} from "next/client";
 import {UsuarioLogin} from "@/type/UsuarioLogin";
 
 const LoginPage = () => {
-
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -28,6 +27,7 @@ const LoginPage = () => {
 
       const response = await login(data);
       sessionStorage.setItem('access_token', response.access_token);
+      router.push('/home');
 
     } catch (error : any) {
       setErrorMessage(error.message || 'Erro no login');
