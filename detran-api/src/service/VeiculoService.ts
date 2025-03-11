@@ -12,6 +12,7 @@ export class VeiculoService {
   ) {}
 
   async create(veiculoDto: VeiculoDto): Promise<VeiculoEntity> {
+    console.log('Iniciando criação de veículo');
     const novoVeiculo = new VeiculoEntity();
     novoVeiculo.placa = veiculoDto.placa;
     novoVeiculo.modelo = veiculoDto.modelo;
@@ -20,7 +21,6 @@ export class VeiculoService {
     novoVeiculo.categoria = veiculoDto.categoria;
     novoVeiculo.chassi = veiculoDto.chassi;
     novoVeiculo.cpf_proprietario = veiculoDto.cpf_proprietario;
-    novoVeiculo.id_infracao = veiculoDto.id_infracao;
 
     return await this.veiculoRepository.save(novoVeiculo);
   }

@@ -3,21 +3,40 @@
 import React, { useState } from 'react';
 import GenericInput from '@/app/ui/generic-form';
 import Button from '@/app/ui/button';
+import {InfracaoRegister} from "@/type/InfracaoRegister";
+import {cadastroInfracao} from "@/service/infracaoService";
 
 const CadastroMulta = () => {
     // States for each input field
     const [placa, setPlaca] = useState('');
-    const [data, setData] = useState('');
+    const [data, setData] = useState<Date | null>(null);
     const [hora, setHora] = useState('');
     const [local, setLocal] = useState('');
-    const [nomeAgente, setNomeAgente] = useState('');
+    const [agente, setAgente] = useState('');
     const [tipoInfracao, setTipoInfracao] = useState('');
 
+    const handleDateChange = (dateStr: string) => {
+        setData(dateStr ? new Date(dateStr) : null);
+    };
     // Handle form submission
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Aqui você pode enviar os dados para uma API ou processá-los conforme necessário
-        console.log({ placa, data, hora, local, nomeAgente, tipoInfracao });
+        const request : InfracaoRegister = {
+            hora: hora,
+            placa_veiculo: placa,
+            id_local: Number(local),
+            matricula_agente:  agente,
+            id_tipo_infracao: Number(tipoInfracao),
+            data: data!
+        }
+
+        try {
+            await cadastroInfracao(request);
+            console.log('Multa cadastrada com sucesso');
+        }catch (e) {
+            console.error(e);
+        }
+
     };
 
     return (
@@ -30,16 +49,16 @@ const CadastroMulta = () => {
                     placeholder="Digite a placa do veículo"
                     value={placa}
                     errorMessage="Placa inválida. Deve seguir o padrão AAA-0000."
-                    onChange={setPlaca}
+                    onChange={(value) => setPlaca(value)}
                 />
                 <GenericInput
                     title="Data"
                     pattern="^\d{4}-\d{2}-\d{2}$"
                     placeholder="Selecione a data da multa"
-                    value={data}
+                    value={data ? data.toISOString().slice(0, 10) : ''}
                     errorMessage="Data inválida. Utilize o formato AAAA-MM-DD."
                     type="date"
-                    onChange={setData}
+                    onChange={(value) => handleDateChange(value)}
                 />
                 <GenericInput
                     title="Hora"
@@ -48,7 +67,7 @@ const CadastroMulta = () => {
                     value={hora}
                     errorMessage="Hora inválida. Utilize o formato HH:MM."
                     type="time"
-                    onChange={setHora}
+                    onChange={(value) => setHora(value)}
                 />
                 <GenericInput
                     title="Local"
@@ -56,15 +75,15 @@ const CadastroMulta = () => {
                     placeholder="Digite o local da infração"
                     value={local}
                     errorMessage="Local inválido."
-                    onChange={setLocal}
+                    onChange={(value) => setLocal(value)}
                 />
                 <GenericInput
                     title="Nome Agente"
                     pattern=".+"
                     placeholder="Digite o nome do agente"
-                    value={nomeAgente}
+                    value={agente}
                     errorMessage="Nome do agente inválido."
-                    onChange={setNomeAgente}
+                    onChange={(value) => setAgente(value)}
                 />
                 <GenericInput
                     title="Tipo Infração"
@@ -72,7 +91,7 @@ const CadastroMulta = () => {
                     placeholder="Digite o tipo de infração"
                     value={tipoInfracao}
                     errorMessage="Tipo de infração inválido."
-                    onChange={setTipoInfracao}
+                    onChange={(value) => setTipoInfracao(value)}
                 />
 
                 <div className="flex gap-4 mt-6">

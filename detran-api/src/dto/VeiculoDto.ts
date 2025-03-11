@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { IsNull } from 'typeorm';
 
 export class VeiculoDto {
   @IsString()
@@ -22,7 +21,4 @@ export class VeiculoDto {
 
   @IsString()
   cpf_proprietario: string;
-
-  @IsNotEmpty()
-  id_infracao: number;
 }
