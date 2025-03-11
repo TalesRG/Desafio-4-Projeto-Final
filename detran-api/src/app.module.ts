@@ -6,9 +6,11 @@ import { AuthModule } from './module/AuthModule';
 import { UsuarioModule } from './module/UsuarioModule';
 import { ConfigModule } from '@nestjs/config';
 import * as process from 'node:process';
+import { InfracaoModule } from './module/InfracaoModule';
 
 @Module({
   imports: [
+    InfracaoModule,
     AuthModule,
     UsuarioModule,
     ProprietarioModule,

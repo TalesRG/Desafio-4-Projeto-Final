@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity({ name: 'agente_de_transito' })
 export class AgenteEntity {
   @PrimaryColumn({ name: 'matricula' })
-  matricula: number;
+  matricula: string;
 
   @Column({ name: 'nome' })
   nome: string;

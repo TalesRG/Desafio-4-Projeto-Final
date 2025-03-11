@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import GenericInput from '@/app/ui/generic-form';
 import Button from '@/app/ui/button';
+import {VeiculoRegister} from "@/type/VeiculoRegister";
+import {cadastrarVeiculo} from "@/service/veiculoService";
 
 
 const CadastroVeiculo = () => {
@@ -14,12 +16,27 @@ const CadastroVeiculo = () => {
     const [ano, setAno] = useState('');
     const [cor, setCor] = useState('');
     const [modelo, setModelo] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Handle form submission
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Aqui você pode realizar o cadastro do veículo, por exemplo, enviando os dados para uma API.
-        console.log({ cpf, categoria, chassi, ano, cor, modelo });
+        try {
+            const data : VeiculoRegister = {
+                placa : placa,
+                cpf_proprietario : cpf,
+                categoria: categoria,
+                chassi : chassi,
+                ano : Number(ano),
+                cor : cor,
+                modelo : modelo
+            }
+            await cadastrarVeiculo(data);
+            setErrorMessage('');
+        }catch (error : any) {
+            setErrorMessage(error.message);
+        }
+
     };
 
     return (
@@ -32,7 +49,7 @@ const CadastroVeiculo = () => {
                     placeholder="Digite a placa do veículo"
                     value={placa}
                     errorMessage="Placa inválida. Deve seguir o padrão AAA-0000."
-                    onChange={setPlaca}
+                    onChange={(value) => setPlaca(value)}
                 />
                 <GenericInput
                     title="CPF do Proprietário"
@@ -48,7 +65,7 @@ const CadastroVeiculo = () => {
                     placeholder="Digite a categoria"
                     value={categoria}
                     errorMessage="Categoria inválida."
-                    onChange={setCategoria}
+                    onChange={(value) => setCategoria(value)}
                 />
                 <GenericInput
                     title="Chassi"
@@ -56,7 +73,7 @@ const CadastroVeiculo = () => {
                     placeholder="Digite o número do chassi"
                     value={chassi}
                     errorMessage="Chassi inválido."
-                    onChange={setChassi}
+                    onChange={(value) => setChassi(value)}
                 />
                 <GenericInput
                     title="Ano"
@@ -65,7 +82,7 @@ const CadastroVeiculo = () => {
                     value={ano}
                     errorMessage="Ano inválido. Deve conter 4 dígitos."
                     type="number"
-                    onChange={setAno}
+                    onChange={(value) => setAno(value)}
                 />
                 <GenericInput
                     title="Cor"
@@ -73,7 +90,7 @@ const CadastroVeiculo = () => {
                     placeholder="Digite a cor"
                     value={cor}
                     errorMessage="Cor inválida."
-                    onChange={setCor}
+                    onChange={(value) => setCor(value)}
                 />
                 <GenericInput
                     title="Modelo"
@@ -81,7 +98,7 @@ const CadastroVeiculo = () => {
                     placeholder="Digite o modelo"
                     value={modelo}
                     errorMessage="Modelo inválido."
-                    onChange={setModelo}
+                    onChange={(value) => setModelo(value)}
                 />
 
                 <div className="flex gap-4 mt-6">

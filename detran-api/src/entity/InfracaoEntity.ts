@@ -18,7 +18,7 @@ export class InfracaoEntity {
   id_local: number;
 
   @Column({ name: 'matricula_agente' })
-  matricula_agente: number;
+  matricula_agente: string;
 
   @Column({ name: 'id_tipo_infracao' })
   id_tipo_infracao: number;
