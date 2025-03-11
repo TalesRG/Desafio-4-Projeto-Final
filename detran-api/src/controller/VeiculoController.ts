@@ -12,4 +12,9 @@ export class VeiculoController {
   async createVeiculo(@Body() veiculoDto: VeiculoDto): Promise<any> {
     return this.veiculoService.create(veiculoDto);
   }
+
+  @Post('all')
+  async listarTodosVeiculos(): Promise<any> {
+    return this.veiculoService.findAll();
+  }
 }

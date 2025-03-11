@@ -24,4 +24,8 @@ export class VeiculoService {
 
     return await this.veiculoRepository.save(novoVeiculo);
   }
+
+  async findAll(): Promise<VeiculoEntity[]> {
+    return await this.veiculoRepository.find();
+  }
 }

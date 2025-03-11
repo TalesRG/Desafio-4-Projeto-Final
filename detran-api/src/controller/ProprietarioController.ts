@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ProprietarioService } from '../service/ProprietarioService';
 import ProprietarioDto from '../dto/ProprietarioDto';
 import { AutenticacaoGuard } from '../guards/AutenticacaoGuard';
@@ -13,5 +13,10 @@ export class ProprietarioController {
     @Body() proprietarioDto: ProprietarioDto,
   ): Promise<any> {
     return this.proprietarioService.create(proprietarioDto);
+  }
+
+  @Get('/all')
+  async listarTodosProprietarios(): Promise<any> {
+    return this.proprietarioService.findAll();
   }
 }

@@ -31,12 +31,17 @@ export class ProprietarioService {
     novoProprietario.estado = proprietario.estado;
     novoProprietario.sexo = proprietario.sexo;
     novoProprietario.data_nascimento = proprietario.data_nascimento;
+    novoProprietario.pontos_na_carteira = proprietario.pontos_na_carteira;
 
     try {
       return await this.proprietarioRepository.save(novoProprietario);
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async findAll(): Promise<ProprietarioEntity[]> {
+    return await this.proprietarioRepository.find();
   }
 
   async verificarCpf(cpf: string) {

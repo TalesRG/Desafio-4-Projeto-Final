@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'proprietario' })
 export class ProprietarioEntity {
@@ -31,4 +31,7 @@ export class ProprietarioEntity {
 
   @Column({ name: 'data_nascimento' })
   data_nascimento: Date;
+
+  @Column({ name: 'pontos_na_carteira' })
+  pontos_na_carteira: number;
 }

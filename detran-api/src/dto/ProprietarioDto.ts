@@ -2,6 +2,7 @@ import {
   IsDate,
   IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -39,6 +40,9 @@ export class ProprietarioDto {
 
   @IsString()
   data_nascimento: Date;
+
+  @IsNumber()
+  pontos_na_carteira: number;
 }
 
 export default ProprietarioDto;
