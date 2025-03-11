@@ -1,0 +1,167 @@
+/*Contâiner principal*/
+body {
+  font-family: Arial, sans-serif;
+  background-color: #F4EDB4;
+  margin: 0;
+  padding: 30vh;
+  text-align: center;
+}
+
+/*Cabeçalho*/
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #cfc151;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.header h1 {
+  margin: 0;
+  justify-content: flex-end;
+  color: white;
+  font-size: 24px;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+  color: white;
+  cursor: pointer;
+}
+.content {
+  margin-top: 70px;
+  padding: 20px;
+}
+/*Logo do cabeçalho*/
+.header img{
+  width: 25vh;
+}
+
+/*Imagem user*/
+.user{
+  margin-bottom: 35px;
+  margin-top: -40px;
+}
+.user img{
+  width: 10vh;
+}
+
+/*Barra de pesquisa*/
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+#search-input {
+  border: none;
+  padding: 8px;
+  width: 100vh;  
+  border-radius: 5px;
+  margin-left: 65px;
+}
+#search-button {
+  padding: 8px 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+#search-button:hover{
+  background-color: #555;
+}
+#search-results {
+  margin-top: 20px;
+}
+#add-button{
+  padding: 8px 12px;
+  background-color: #36f325;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+#clear-button:hover {
+  background-color: #1f8d15;
+}
+
+/* Contêiner com os blocos */
+.info-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto auto;
+  gap: 20px;
+  justify-content: center;
+  padding: 10px;
+}
+/* Primeiro box */
+.info-box:nth-child(1) { 
+  grid-column: span 2; 
+  grid-row: span 2; 
+  padding: 20px;
+  font-size: 1.3rem;
+  background-color: #f0f0f0;
+}
+/* Estilização dos blocos */
+.info-box {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  transition: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  width: 90%; /* Reduzindo tamanho do bloco */
+  margin: 0 auto;
+}
+
+/* Fundo para os títulos */
+.info-box h2 {
+  background-color: #b1a448;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Estilização das tabelas */
+table {
+  width: 60%; 
+  max-width: 300px; 
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+}
+
+/*Cabeçalhos das tabelas */
+th {
+  background-color: #b1a448;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Células da tabela */
+th, td {
+  border: 1px solid black;
+  padding: 6px;
+  text-align: center;
+}
+
+/* Mensagem de erro caso não haja dados */
+#mensagem {
+  font-size: 18px;
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
