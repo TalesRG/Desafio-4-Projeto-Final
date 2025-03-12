@@ -30,7 +30,7 @@ import { LocalModule } from './module/LocalModule';
       entities: [__dirname + '/entity/**/*{.ts,.js}'],
       migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       synchronize: true,
-      migrationsRun: true,
+      migrationsRun: false,
     }),
   ],
   controllers: [],

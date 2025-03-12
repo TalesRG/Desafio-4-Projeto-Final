@@ -4,7 +4,7 @@ export class Inserts1741784774569 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Inserção condicional na tabela de locais com INSERT IGNORE
     await queryRunner.query(`
-      INSERT IGNORE INTO local (nome, latitude, longitude, velocidade_permitida)
+      INSERT  INTO local (nome, latitude, longitude, velocidade_permitida)
       VALUES 
       ('Palácio do Planalto', -15.7998, -47.8645, 60),
       ('Congresso Nacional', -15.7993, -47.8640, 50),
@@ -14,13 +14,9 @@ export class Inserts1741784774569 implements MigrationInterface {
       ('Torre de TV de Brasília', -15.7892, -47.8935, 50);
     `);
 
-    await queryRunner.query(`
-        DELETE FROM agente_de_transito WHERE matricula IN ('AGT001', 'AGT002', 'AGT003');
-    `);
-
     // Inserção condicional na tabela de agentes de trânsito com INSERT IGNORE
     await queryRunner.query(`
-      INSERT IGNORE INTO agente_de_transito (matricula, nome, data_contratacao, tempo_de_servico)
+      INSERT  INTO agente_de_transito (matricula, nome, data_contratacao, tempo_de_servico)
       VALUES
       ('AGT001', 'Carlos Silva', '2015-06-01', 7),
       ('AGT002', 'Mariana Costa', '2018-03-15', 4),
@@ -29,7 +25,7 @@ export class Inserts1741784774569 implements MigrationInterface {
 
     // Inserção condicional na tabela de tipo de infração com INSERT IGNORE
     await queryRunner.query(`
-      INSERT IGNORE INTO tipo_infracao (nome, valor, velocidade)
+      INSERT  INTO tipo_infracao (nome, valor, velocidade)
       VALUES
       ('Excesso de velocidade até 20%', 135.00, 60),
       ('Excesso de velocidade entre 20% e 50%', 195.00, 80),

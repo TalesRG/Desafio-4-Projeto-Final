@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'agente_de_transito' })
 export class AgenteEntity {
-  @PrimaryColumn({ name: 'matricula' })
+  @PrimaryGeneratedColumn('uuid', { name: 'matricula' })
   matricula: string;
 
   @Column({ name: 'nome' })

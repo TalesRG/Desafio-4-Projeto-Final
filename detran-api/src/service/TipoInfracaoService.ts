@@ -13,4 +13,10 @@ export class TipoInfracaoService {
   async tipoInfracao(): Promise<TipoInfracaoEntity[]> {
     return await this.tipoInfracaoRepository.find();
   }
+
+  async tipoInfracaoPorId(id: number): Promise<TipoInfracaoEntity> {
+    return await this.tipoInfracaoRepository.findOne({
+      where: { id_tipo_infracao: id },
+    });
+  }
 }

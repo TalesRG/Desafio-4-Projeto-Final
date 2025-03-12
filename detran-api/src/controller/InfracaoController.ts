@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AutenticacaoGuard } from '../guards/AutenticacaoGuard';
 import { InfracaoService } from '../service/InfracaoService';
 import InfracaoDto from '../dto/InfracaoDto';
@@ -26,5 +26,10 @@ export class InfracaoController {
   @Get('/listar/tipoInfracao')
   async listarTipoInfracoes(): Promise<any> {
     return this.tipoInfracao.tipoInfracao();
+  }
+
+  @Get('/listar/tipoInfracao/:id')
+  async listarTipoInfracaoPorId(@Param('id') id: number): Promise<any> {
+    return this.tipoInfracao.tipoInfracaoPorId(id);
   }
 }

@@ -13,4 +13,8 @@ export class LocalService {
   async listarLocais(): Promise<LocalEntity[]> {
     return await this.localRepository.find();
   }
+
+  async buscarLocal(id: number) {
+    return await this.localRepository.findOne({ where: { id_local: id } });
+  }
 }

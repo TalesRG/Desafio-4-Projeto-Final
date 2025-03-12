@@ -15,6 +15,8 @@ import {listarTipoInfracao} from "@/service/tipoInfracaoService";
 import {TipoInfracao} from "@/type/TipoInfracao";
 import {listarAgentes} from "@/service/agenteDeTransitoService";
 import {AgenteDeTransito} from "@/type/AgenteDeTransito";
+import {listarVeiculos} from "@/service/veiculoService";
+import {VeiculoRegister} from "@/type/VeiculoRegister";
 
 const CadastroMulta = () => {
     // States for each input field
@@ -37,17 +39,17 @@ const CadastroMulta = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const infracoesList = await listarInfracoes();
+                const veiculoList = await listarVeiculos();
                 const localList = await listarLocais();
                 const tipoInfracaoList = await listarTipoInfracao();
                 const agentesList = await listarAgentes();
 
-                const newMultasOptions = infracoesList
-                    .filter((infracao: InfracaoRegister) => infracao.placa_veiculo && infracao.placa_veiculo.trim() !== "")
-                    .map((infracao: InfracaoRegister) => ({
-                        label: infracao.placa_veiculo,
-                        value: infracao.placa_veiculo,
+                const newMultasOptions = veiculoList
+                    .map((veiculo: VeiculoRegister) => ({
+                        label: veiculo.placa,
+                        value: veiculo.placa,
                     }));
+
 
                 const newLocalOptions = localList
                     .filter((local: Local) => local.nome && local.nome.trim() !== "")
