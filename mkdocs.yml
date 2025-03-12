@@ -102,4 +102,8 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Back-end: back-end/index.md
-  - Front-end: front-end/index.md
+  - Front-end: 
+    - Introdução: front-end/index.md
+    - Componentes: front-end/componentes.md
+    - Rotas: front-end/rotas.md
+    
