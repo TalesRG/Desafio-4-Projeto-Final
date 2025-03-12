@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AutenticacaoGuard } from '../guards/AutenticacaoGuard';
 import { InfracaoService } from '../service/InfracaoService';
 import InfracaoDto from '../dto/InfracaoDto';
@@ -11,5 +11,10 @@ export class InfracaoController {
   @Post('/cadastrar')
   async createInfracao(@Body() infracaoDto: InfracaoDto): Promise<any> {
     return this.infracaoService.create(infracaoDto);
+  }
+
+  @Get('/listar')
+  async listarTodasInfracoes(): Promise<any> {
+    return this.infracaoService.findAll();
   }
 }

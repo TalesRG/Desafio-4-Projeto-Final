@@ -1,11 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import GenericInput from '@/app/ui/generic-form';
 import GenericSelect from '@/app/ui/home/dropdown-api';
 import Button from '@/app/ui/button';
 import { VeiculoRegister } from "@/type/VeiculoRegister";
 import { cadastrarVeiculo } from "@/service/veiculoService";
+import {listarInfracoes} from "@/service/infracaoService";
+import {InfracaoRegister} from "@/type/InfracaoRegister";
+import {ProprietarioRegister} from "@/type/ProprietarioRegister";
+import SelectComponent from "@/app/ui/forms/selectComponent";
+import {listarProprietarios} from "@/service/proprietarioService";
 
 
 const CadastroVeiculo = () => {
@@ -17,7 +22,37 @@ const CadastroVeiculo = () => {
     const [ano, setAno] = useState('');
     const [cor, setCor] = useState('');
     const [modelo, setModelo] = useState('');
+
+    const [proprietarioOptions, setProprietarioOptions] = useState<{ label: string; value: string }[]>([]);
+    const [proprietario, setProprietario] = useState('');
+
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await listarProprietarios();
+
+                const newProprietarioOptions = response
+                    .filter((proprietario: ProprietarioRegister) => proprietario.cpf && proprietario.cpf.trim() !== "")
+                    .map((proprietario: ProprietarioRegister) => ({
+                        label: proprietario.nome,
+                        value: proprietario.cpf,
+                    }));
+
+                setProprietarioOptions(newProprietarioOptions);
+            } catch (err) {
+                setError("Não foi possível carregar as opções");
+            }finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,16 +88,16 @@ const CadastroVeiculo = () => {
                     errorMessage="Placa inválida. Deve seguir o padrão AAA-0000."
                     onChange={(value) => setPlaca(value)}
                 />
-                <GenericSelect
-                    label="CPF"
-                    endpoint="/api/cpf"
-                    mapOptions={(data: any) => [
-                        { label: data.placa, value: data.placa }
-                    ]}
-                    placeholder="Digite o CPF do proprietario"
-                    value={cpf}
-                    onChange={setCpf}
+
+                <SelectComponent
+                    options={proprietarioOptions}
+                    label={"Proprietário"}
+                    onChange={setProprietario}
+                    className="flex flex-col gap-2 mb-5"
+                    loading={loading}
+                    error={error}
                 />
+
 
                 <GenericInput
                     title="Categoria"
