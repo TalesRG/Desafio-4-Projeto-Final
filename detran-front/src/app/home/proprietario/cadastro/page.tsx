@@ -10,8 +10,10 @@ import StatesButton from '@/app/ui/home/proprietario/cadastro/states-button';
 import SexButton from '@/app/ui/home/proprietario/cadastro/sex-button';
 import { ProprietarioRegister } from "@/type/ProprietarioRegister";
 import { cadastrarProprietario } from "@/service/proprietarioService";
+import {useRouter} from "next/navigation";
 
 export default function CadastroProprietario() {
+  const router = useRouter();
   const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
@@ -33,7 +35,7 @@ export default function CadastroProprietario() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!nome || !cpf || !email || !endereco || !bairro || !cidade || !telefone || !estado || !sexo || !dataNascimento || !pontosNaCarteira) {
+    if (!nome || !cpf || !email || !endereco || !bairro || !cidade || !telefone || !estado || !sexo || !dataNascimento) {
         toast.error('Preencha todos os campos.');
         return;
     }
@@ -55,6 +57,7 @@ export default function CadastroProprietario() {
     try {
       await cadastrarProprietario(data);
       toast.success('Proprietário cadastrado com sucesso.');
+      router.push('/home/proprietario');
     }catch (e) {
      toast.error('Erro ao cadastrar proprietário.');
     }

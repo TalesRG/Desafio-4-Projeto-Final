@@ -9,6 +9,12 @@ import {cadastroInfracao, listarInfracoes} from '@/service/infracaoService';
 import SelectComponent from "@/app/ui/forms/selectComponent";
 import toast from "react-hot-toast";
 import {useRouter} from "next/navigation";
+import {listarLocais} from "@/service/localService";
+import {Local} from "@/type/Local";
+import {listarTipoInfracao} from "@/service/tipoInfracaoService";
+import {TipoInfracao} from "@/type/TipoInfracao";
+import {listarAgentes} from "@/service/agenteDeTransitoService";
+import {AgenteDeTransito} from "@/type/AgenteDeTransito";
 
 const CadastroMulta = () => {
     // States for each input field
@@ -19,11 +25,11 @@ const CadastroMulta = () => {
     const [local, setLocal] = useState('');
     const [agente, setAgente] = useState('');
     const [tipoInfracao, setTipoInfracao] = useState('');
-    const [selectedMulta, setSelectedMulta] = useState("");
-    const [selectedLocal, setSelectedLocal] = useState("");
-    const [selectedNomeAgente, setSelectedLocalNomeAgente] = useState("");
-    const [selectedTipoInfracao, setSelectedLocalTipoInfracao] = useState("");
+
     const [multasOptions, setMultasOptions] = useState<{ label: string; value: string }[]>([]);
+    const [localOptions, setLocalOptions] = useState<{ label: string; value: string }[]>([]);
+    const [tipoInfracaoOptions, setTipoInfracaoOptions] = useState<{ label: string; value: string }[]>([]);
+    const [agenteDeTransitoOptions, setAgenteDeTransitoOptions] = useState<{ label: string; value: string }[]>([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -31,15 +37,41 @@ const CadastroMulta = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await listarInfracoes();
+                const infracoesList = await listarInfracoes();
+                const localList = await listarLocais();
+                const tipoInfracaoList = await listarTipoInfracao();
+                const agentesList = await listarAgentes();
 
-                const newMultasOptions = response
+                const newMultasOptions = infracoesList
                     .filter((infracao: InfracaoRegister) => infracao.placa_veiculo && infracao.placa_veiculo.trim() !== "")
                     .map((infracao: InfracaoRegister) => ({
                         label: infracao.placa_veiculo,
                         value: infracao.placa_veiculo,
                     }));
 
+                const newLocalOptions = localList
+                    .filter((local: Local) => local.nome && local.nome.trim() !== "")
+                    .map((local: Local) => ({
+                        label: local.nome,
+                        value: local.id_local.toString(),
+                    }));
+
+                const newTipoInfracaoOptions = tipoInfracaoList
+                    .filter((tipoInfracao: TipoInfracao) => tipoInfracao.nome && tipoInfracao.nome.trim() !== "")
+                    .map((tipoInfracao: TipoInfracao) => ({
+                        label: tipoInfracao.nome,
+                        value: tipoInfracao.id_tipo_infracao.toString(),
+                    }));
+
+                const newAgentesOptions = agentesList
+                    .filter((agenteDeTransito: AgenteDeTransito) => agenteDeTransito.nome && agenteDeTransito.nome.trim() !== "")
+                    .map((agenteDeTransito: AgenteDeTransito) => ({
+                        label: agenteDeTransito.nome,
+                        value: agenteDeTransito.matricula,
+                    }));
+                setAgenteDeTransitoOptions(newAgentesOptions);
+                setTipoInfracaoOptions(newTipoInfracaoOptions);
+                setLocalOptions(newLocalOptions);
                 setMultasOptions(newMultasOptions);
             } catch (err) {
                 setError("Não foi possível carregar as opções");
@@ -91,7 +123,7 @@ const CadastroMulta = () => {
                 <h2 className="text-lg font-bold">Escolha um veículo:</h2>
                 <SelectComponent
                     options={multasOptions}
-                    onChange={setSelectedMulta}
+                    onChange={setPlaca}
                     className="flex flex-col gap-2 mb-5"
                     loading={loading}
                     error={error}
@@ -119,37 +151,31 @@ const CadastroMulta = () => {
                     onChange={(value) => setHora(value)}
                 />
 
-                <GenericSelect
-                    label="Local"
-                    endpoint="/api/locais"
-                    mapOptions={(data: any) => [
-                        { label: data.fact, value: data.fact }
-                    ]}
-                    placeholder="Selecione o local da infração"
-                    value={local}
-                    onChange={setLocal}
+                <SelectComponent
+                    options={localOptions}
+                    onChange={(value) => setLocal(value)}
+                    className="flex flex-col gap-2 mb-5"
+                    label={"Local"}
+                    loading={loading}
+                    error={error}
                 />
 
-                <GenericSelect
-                    label="Nome Agente"
-                    endpoint="/api/agentes"
-                    mapOptions={(data: any) => [
-                        { label: data.fact, value: data.fact }
-                    ]}
-                    placeholder="Selecione o agente"
-                    value={agente}
-                    onChange={setAgente}
+                <SelectComponent
+                    options={agenteDeTransitoOptions}
+                    onChange={(value) => setAgente(value)}
+                    className="flex flex-col gap-2 mb-5"
+                    label={"Agente de Trânsito"}
+                    loading={loading}
+                    error={error}
                 />
 
-                <GenericSelect
-                    label="Tipo Infração"
-                    endpoint="/api/tipos-infracao"
-                    mapOptions={(data: any) => [
-                        { label: data.fact, value: data.fact }
-                    ]}
-                    placeholder="Selecione o tipo de infração"
-                    value={tipoInfracao}
-                    onChange={setTipoInfracao}
+                <SelectComponent
+                    options={tipoInfracaoOptions}
+                    onChange={(value) => setTipoInfracao(value)}
+                    className="flex flex-col gap-2 mb-5"
+                    label={"Tipo de Infração"}
+                    loading={loading}
+                    error={error}
                 />
 
                 <div className="flex gap-4 mt-6">
