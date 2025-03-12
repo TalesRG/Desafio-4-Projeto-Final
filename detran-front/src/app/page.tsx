@@ -23,6 +23,10 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
+      if (!email || !senha) {
+        toast.error('Preencha todos os campos');
+        return;
+      }
 
       const data  : UsuarioLogin = {
         email: email,
@@ -35,7 +39,7 @@ const LoginPage = () => {
         router.push('/home');
         notifySuccess('Login efetuado com sucesso');
       }else {
-        setErrorMessage('Erro no login');
+        toast.error('Erro no login');
       }
 
     } catch (error : any) {
