@@ -7,7 +7,16 @@ export const cadastroInfracao = async (data : InfracaoRegister) => {
         console.log(data);
         const response = await httpClient.post('/infracao/cadastrar', data);
         return response.data;
-    }catch (e : any) {
+    } catch (e: any) {
         return e.response.data;
     }
+}
+
+export const listarInfracoes = async () => {
+        try {
+            const response = await httpClient.get('/infracao/listar');
+            return response.data;
+        }catch (e : any) {
+            return e.response.data;
+        }
 }

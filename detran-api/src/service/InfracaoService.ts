@@ -28,6 +28,6 @@ export class InfracaoService {
   }
 
   async findAll(): Promise<any> {
-    return [];
+    return await this.infracaoRepository.find();
   }
 }

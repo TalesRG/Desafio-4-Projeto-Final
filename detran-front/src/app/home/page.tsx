@@ -4,6 +4,7 @@ import React from "react";
 import CardLink from "@/app/ui/home/card-link";
 
 const DashboardPage = () => {
+
   return (
     <div>
       <h1 className="text-3xl font-bold pb-10 text-center md:text-left">

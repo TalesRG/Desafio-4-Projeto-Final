@@ -1,8 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import GenericInput from '@/app/ui/generic-form';
+import GenericSelect from '@/app/ui/home/dropdown-api';
 import Button from '@/app/ui/button';
+import { VeiculoRegister } from "@/type/VeiculoRegister";
+import { cadastrarVeiculo } from "@/service/veiculoService";
+import {listarInfracoes} from "@/service/infracaoService";
+import {InfracaoRegister} from "@/type/InfracaoRegister";
+import {ProprietarioRegister} from "@/type/ProprietarioRegister";
+import SelectComponent from "@/app/ui/forms/selectComponent";
+import {listarProprietarios} from "@/service/proprietarioService";
 import {VeiculoRegister} from "@/type/VeiculoRegister";
 import {cadastrarVeiculo} from "@/service/veiculoService";
 import toast from "react-hot-toast";
@@ -18,6 +26,37 @@ const CadastroVeiculo = () => {
     const [ano, setAno] = useState('');
     const [cor, setCor] = useState('');
     const [modelo, setModelo] = useState('');
+
+    const [proprietarioOptions, setProprietarioOptions] = useState<{ label: string; value: string }[]>([]);
+    const [proprietario, setProprietario] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await listarProprietarios();
+
+                const newProprietarioOptions = response
+                    .filter((proprietario: ProprietarioRegister) => proprietario.cpf && proprietario.cpf.trim() !== "")
+                    .map((proprietario: ProprietarioRegister) => ({
+                        label: proprietario.nome,
+                        value: proprietario.cpf,
+                    }));
+
+                setProprietarioOptions(newProprietarioOptions);
+            } catch (err) {
+                setError("Não foi possível carregar as opções");
+            }finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,22 +95,27 @@ const CadastroVeiculo = () => {
                     pattern="^[A-Z]{3}-\d{4}$"
                     placeholder="Digite a placa do veículo"
                     value={placa}
+                    maxLength={8}
                     errorMessage="Placa inválida. Deve seguir o padrão AAA-0000."
                     onChange={(value) => setPlaca(value)}
                 />
-                <GenericInput
-                    title="CPF do Proprietário"
-                    pattern="^\d{11}$"
-                    placeholder="Digite o CPF do proprietário"
-                    value={cpf}
-                    errorMessage="CPF inválido. Deve conter 11 dígitos."
-                    onChange={setCpf}
+
+                <SelectComponent
+                    options={proprietarioOptions}
+                    label={"Proprietário"}
+                    onChange={setProprietario}
+                    className="flex flex-col gap-2 mb-5"
+                    loading={loading}
+                    error={error}
                 />
+
+
                 <GenericInput
                     title="Categoria"
                     pattern=".+"
                     placeholder="Digite a categoria"
                     value={categoria}
+                    maxLength={2}
                     errorMessage="Categoria inválida."
                     onChange={(value) => setCategoria(value)}
                 />
@@ -80,6 +124,7 @@ const CadastroVeiculo = () => {
                     pattern=".+"
                     placeholder="Digite o número do chassi"
                     value={chassi}
+                    maxLength={17}
                     errorMessage="Chassi inválido."
                     onChange={(value) => setChassi(value)}
                 />
@@ -88,8 +133,9 @@ const CadastroVeiculo = () => {
                     pattern="^\d{4}$"
                     placeholder="Digite o ano"
                     value={ano}
+                    maxLength={4}
                     errorMessage="Ano inválido. Deve conter 4 dígitos."
-                    type="number"
+                    type="text"
                     onChange={(value) => setAno(value)}
                 />
                 <GenericInput
@@ -97,6 +143,7 @@ const CadastroVeiculo = () => {
                     pattern=".+"
                     placeholder="Digite a cor"
                     value={cor}
+                    maxLength={20}
                     errorMessage="Cor inválida."
                     onChange={(value) => setCor(value)}
                 />
@@ -105,6 +152,7 @@ const CadastroVeiculo = () => {
                     pattern=".+"
                     placeholder="Digite o modelo"
                     value={modelo}
+                    maxLength={20}
                     errorMessage="Modelo inválido."
                     onChange={(value) => setModelo(value)}
                 />
