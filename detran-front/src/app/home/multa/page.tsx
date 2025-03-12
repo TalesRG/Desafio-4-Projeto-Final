@@ -13,6 +13,7 @@ import {
 import { InfracaoRegister } from "@/type/InfracaoRegister";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import "@/app/globals.css";
 
 interface Veiculo {
     placa: string;
@@ -163,7 +164,7 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <main className="min-h-screen bg-gradient-to-br from-yellow-100 to-yellow-200 flex flex-col items-center py-10 px-4">
+        <main className="flex flex-col items-center py-10 px-4">
             {/* Título da página ou seção */}
             <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold text-gray-800">Sistema de Multas</h1>
@@ -182,19 +183,16 @@ const HomePage: React.FC = () => {
                 <div className="flex items-center space-x-2 border border-[#ccc] p-2 rounded bg-white mb-6">
                     <input
                         type="text"
-                        id="search-input"
                         placeholder="Pesquisar multa..."
                         className="border-none p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-[#36f325]"
                         onChange={(e) => setPesquisa(e.target.value)}
                     />
                     <button
-                        id="search-button"
                         onClick={fetchMultas}
-                        className="px-4 py-2 bg-[#333] text-white rounded hover:bg-[#555] transition duration-300"
+                        className="cursor-pointer px-4 py-2 bg-[#333] text-white rounded hover:bg-[#555] transition duration-300"
                     >Buscar</button>
                     <button
-                        id="add-button"
-                        className="px-4 py-2 bg-[#36f325] text-white rounded hover:bg-[#2fa022] transition duration-300"
+                        className="cursor-pointer px-4 py-2 bg-[var(--button-color)] text-white rounded hover:bg-[var(--button-color-hover)] transition duration-300"
                         onClick={() => router.push("/home/multa/cadastro")}
                     >Nova multa</button>
                 </div>
@@ -206,9 +204,8 @@ const HomePage: React.FC = () => {
                     </h2>
 
                     <button
-                        id="search-button"
                         onClick={() => fetchTodasInfracao()}
-                        className="px-4 py-2 bg-[#333] text-white rounded hover:bg-[#555] transition duration-300"
+                        className="cursor-pointer mb-2 px-4 py-2 bg-[#333] text-white rounded hover:bg-[#555] transition duration-300"
                     >Mostar todas as multas
                     </button>
 
