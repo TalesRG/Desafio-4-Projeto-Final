@@ -5,6 +5,7 @@ import GenericInput from '@/app/ui/generic-form';
 import Button from '@/app/ui/button';
 import {ProprietarioRegister} from "@/type/ProprietarioRegister";
 import {cadastrarProprietario} from "@/service/proprietarioService";
+import toast from "react-hot-toast";
 
 export default function CadastroProprietario() {
   const [nome, setNome] = useState('');
@@ -27,6 +28,11 @@ export default function CadastroProprietario() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!nome || !cpf || !email || !endereco || !bairro || !cidade || !telefone || !estado || !sexo || !dataNascimento || !pontosNaCarteira) {
+        toast.error('Preencha todos os campos.');
+        return;
+    }
+
     const data: ProprietarioRegister = {
       nome,
       cpf,
@@ -43,10 +49,9 @@ export default function CadastroProprietario() {
 
     try {
       await cadastrarProprietario(data);
-      setErrorMessage('');
+      toast.success('Proprietário cadastrado com sucesso.');
     }catch (e) {
-      console.error(e);
-      setErrorMessage('Erro ao cadastrar proprietário.');
+     toast.error('Erro ao cadastrar proprietário.');
     }
   };
 

@@ -5,9 +5,13 @@ import GenericInput from '@/app/ui/generic-form';
 import Button from '@/app/ui/button';
 import {InfracaoRegister} from "@/type/InfracaoRegister";
 import {cadastroInfracao} from "@/service/infracaoService";
+import toast from "react-hot-toast";
+import {router} from "next/client";
+import {useRouter} from "next/navigation";
 
 const CadastroMulta = () => {
     // States for each input field
+    const router = useRouter();
     const [placa, setPlaca] = useState('');
     const [data, setData] = useState<Date | null>(null);
     const [hora, setHora] = useState('');
@@ -21,6 +25,11 @@ const CadastroMulta = () => {
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!hora || !placa || !local || !agente || !tipoInfracao || !data) {
+            toast.error('Preencha todos os campos');
+            return;
+        }
+
         const request : InfracaoRegister = {
             hora: hora,
             placa_veiculo: placa,
@@ -32,9 +41,10 @@ const CadastroMulta = () => {
 
         try {
             await cadastroInfracao(request);
-            console.log('Multa cadastrada com sucesso');
+            router.push('/home/multa');
+            toast.success('Multa cadastrada com sucesso');
         }catch (e) {
-            console.error(e);
+            toast.error('Erro ao cadastrar multa');
         }
 
     };

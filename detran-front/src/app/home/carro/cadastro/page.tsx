@@ -5,10 +5,12 @@ import GenericInput from '@/app/ui/generic-form';
 import Button from '@/app/ui/button';
 import {VeiculoRegister} from "@/type/VeiculoRegister";
 import {cadastrarVeiculo} from "@/service/veiculoService";
+import toast from "react-hot-toast";
+import {useRouter} from "next/navigation";
 
 
 const CadastroVeiculo = () => {
-    // States for each input field
+    const router = useRouter();
     const [placa, setPlaca] = useState('');
     const [cpf, setCpf] = useState('');
     const [categoria, setCategoria] = useState('');
@@ -16,12 +18,16 @@ const CadastroVeiculo = () => {
     const [ano, setAno] = useState('');
     const [cor, setCor] = useState('');
     const [modelo, setModelo] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
 
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            if (!placa || !cpf || !categoria || !chassi || !ano || !cor || !modelo) {
+                toast.error('Preencha todos os campos');
+                return;
+            }
+
             const data : VeiculoRegister = {
                 placa : placa,
                 cpf_proprietario : cpf,
@@ -32,9 +38,11 @@ const CadastroVeiculo = () => {
                 modelo : modelo
             }
             await cadastrarVeiculo(data);
-            setErrorMessage('');
+            toast.success('Veículo cadastrado com sucesso!');
+            router.push('/home/carro');
+
         }catch (error : any) {
-            setErrorMessage(error.message);
+           toast.error('Erro ao cadastrar veículo');
         }
 
     };

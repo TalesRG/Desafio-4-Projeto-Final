@@ -8,6 +8,8 @@ import GenericInput from "@/app/ui/generic-form";
 import { register } from "@/service/user";
 import { useRouter } from "next/navigation";
 import {UsuarioRegister} from "@/type/UsuarioRegister";
+import {notifySuccess} from "@/app/ui/toast";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
     const router = useRouter(); // Inicialização correta do hook
@@ -20,19 +22,25 @@ const LoginPage = () => {
     const handleRegister = async (e: any) => {
         e.preventDefault();
         if (senha !== senhaRepetida) {
-            setErrorMessage("As senhas não coincidem.");
+            toast.error("As senhas não coincidem.");
+            return;
+        }
+
+        if (!nome || !email || !senha) {
+            toast.error("Preencha todos os campos.");
             return;
         }
         try {
 
             const data : UsuarioRegister = {
-               nome: nome,
+                nome: nome,
                 email : email,
-               senha : senha,
+                senha : senha,
             }
             await register(data);
             setErrorMessage('');
             router.push('/');
+            notifySuccess('Usuário registrado com sucesso.');
         } catch (error: any) {
             setErrorMessage('Erro ao registrar usuário.');
             console.error('Erro ao fazer registro', error);

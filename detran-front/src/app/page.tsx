@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import React, {useState} from "react";
@@ -8,12 +8,16 @@ import GenericInput from "./ui/generic-form";
 import { useRouter } from "next/navigation";
 import {login} from "@/service/user";
 import {UsuarioLogin} from "@/type/UsuarioLogin";
+import toast from "react-hot-toast";
+import {notifySuccess} from "@/app/ui/toast";
 
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+
 
   const handleLogin = async (e : any ) => {
     e.preventDefault();
@@ -26,12 +30,17 @@ const LoginPage = () => {
       }
 
       const response = await login(data);
-      sessionStorage.setItem('access_token', response.access_token);
-      router.push('/home');
+      if (response) {
+        sessionStorage.setItem('access_token', response.access_token);
+        router.push('/home');
+        notifySuccess('Login efetuado com sucesso');
+      }else {
+        setErrorMessage('Erro no login');
+      }
 
     } catch (error : any) {
-      setErrorMessage(error.message || 'Erro no login');
-      console.error('Erro ao fazer login', error);
+      const mensagemErro = 'Erro no login';
+      setErrorMessage(mensagemErro);
     }
   };
 
