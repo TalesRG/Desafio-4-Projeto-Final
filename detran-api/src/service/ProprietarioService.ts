@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProprietarioEntity } from '../entity/ProprietarioEntity';
 import { Repository } from 'typeorm';
@@ -10,16 +10,17 @@ export class ProprietarioService {
     @InjectRepository(ProprietarioEntity)
     private readonly proprietarioRepository: Repository<ProprietarioEntity>,
   ) {}
-
+  private readonly logger = new Logger(ProprietarioService.name);
   async create(proprietario: ProprietarioDto): Promise<ProprietarioEntity> {
+    this.logger.log('Iniciando criação de proprietário');
     if (await this.verificarCpf(proprietario.cpf)) {
       throw new HttpException('CPF já cadastrado', HttpStatus.BAD_REQUEST);
     }
-
     if (await this.verificarEmail(proprietario.cpf)) {
       throw new HttpException('Email já cadastrado', HttpStatus.BAD_REQUEST);
     }
-
+    this.logger.log('Proprietário não encontrado');
+    this.logger.log('Iniciando criação de proprietário');
     const novoProprietario = new ProprietarioEntity();
     novoProprietario.cpf = proprietario.cpf;
     novoProprietario.nome = proprietario.nome;
@@ -34,6 +35,7 @@ export class ProprietarioService {
     novoProprietario.pontos_na_carteira = proprietario.pontos_na_carteira;
 
     try {
+      this.logger.log('Proprietário criado com sucesso');
       return await this.proprietarioRepository.save(novoProprietario);
     } catch (error) {
       throw new Error(error);
@@ -41,6 +43,7 @@ export class ProprietarioService {
   }
 
   async findAll(): Promise<ProprietarioEntity[]> {
+    this.logger.log('Buscando todos os proprietários');
     return await this.proprietarioRepository.find();
   }
 

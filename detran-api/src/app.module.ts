@@ -7,9 +7,13 @@ import { UsuarioModule } from './module/UsuarioModule';
 import { ConfigModule } from '@nestjs/config';
 import * as process from 'node:process';
 import { InfracaoModule } from './module/InfracaoModule';
+import { AgenteDeTransitoModule } from './module/AgenteDeTransitoModule';
+import { LocalModule } from './module/LocalModule';
 
 @Module({
   imports: [
+    LocalModule,
+    AgenteDeTransitoModule,
     InfracaoModule,
     AuthModule,
     UsuarioModule,
@@ -24,7 +28,9 @@ import { InfracaoModule } from './module/InfracaoModule';
       password: String(process.env.PASSWORD), // ADICIONAR AO .ENV FUTURAMENTE
       database: 'detran', // ADICIONAR AO .ENV FUTURAMENTE
       entities: [__dirname + '/entity/**/*{.ts,.js}'],
+      migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
       synchronize: true,
+      migrationsRun: true,
     }),
   ],
   controllers: [],

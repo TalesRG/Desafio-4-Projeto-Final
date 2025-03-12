@@ -16,8 +16,8 @@ body {
   color: var(--text-color);
 }
 
-/* Global styles for input elements */
-input {
+/* Global styles for input and select elements */
+input, select {
   padding: 0.5rem 1rem;
   background-color: var(--input-background);
   font-size: 1rem;
@@ -27,13 +27,13 @@ input {
 }
 
 /* Styling for focus state */
-input:focus {
+input:focus, select:focus {
   border-color: #34d399; /* Tailwind's green-400 */
   box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25);
   outline: none;
 }
 
 /* Optional: Styling for placeholder text */
-input::placeholder {
+input::placeholder, select::placeholder {
   color: #9ca3af; /* Tailwind's gray-400 */
 }

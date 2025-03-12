@@ -10,3 +10,12 @@ export const cadastrarProprietario = async (data : ProprietarioRegister) => {
         return e.response.data;
     }
 }
+
+export const listarProprietarios = async () => {
+    try {
+        const response = await httpClient.get('/proprietario/all');
+        return response.data;
+    }catch (e : any) {
+        return e.response.data;
+    }
+}

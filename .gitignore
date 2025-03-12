@@ -1,0 +1,8 @@
+## Virutal Environment ##
+venv
+env
+.env
+.venv
+
+## Mkdocs ##
+site/

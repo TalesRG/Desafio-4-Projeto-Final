@@ -4,10 +4,11 @@ import React from "react";
 import CardLink from "@/app/ui/home/card-link";
 
 const DashboardPage = () => {
+    const nomeUsuario = sessionStorage.getItem('nomeUsuario');
   return (
     <div>
       <h1 className="text-3xl font-bold pb-10 text-center md:text-left">
-        Bem-vindo Username
+        Bem vindo, {nomeUsuario}
       </h1>
       <div className="flex flex-col md:flex-row justify-center md:justify-start gap-x-6 gap-y-10">
         {/* Carro Card */}

@@ -9,6 +9,7 @@ type GenericInputProps = {
   placeholder?: string;       // Placeholder text for the input
   errorMessage?: string;      // Error message to display on validation failure
   type?: string;              // Input type (default is 'text')
+  maxLength?: number;         // Maximum length of the input
   onChange?: (value: string) => void; // Callback to send the updated value
 };
 
@@ -19,6 +20,7 @@ const GenericInput: React.FC<GenericInputProps> = ({
   placeholder = '',
   errorMessage = 'Invalid input',
   type = 'text',
+  maxLength,
   onChange,
 }) => {
   // Construct the RegExp from the string pattern.
@@ -52,6 +54,7 @@ const GenericInput: React.FC<GenericInputProps> = ({
         value={inputValue}
         onChange={handleInputChange}
         placeholder={placeholder}
+        maxLength={maxLength}
         className=""
       />
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}

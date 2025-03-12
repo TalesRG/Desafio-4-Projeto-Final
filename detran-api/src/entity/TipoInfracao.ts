@@ -5,6 +5,9 @@ export class TipoInfracaoEntity {
   @PrimaryGeneratedColumn({ name: 'id_tipo_infracao' })
   id_tipo_infracao: number;
 
+  @Column({ name: 'nome' })
+  nome: string;
+
   @Column({ name: 'valor' })
   valor: number;
 
