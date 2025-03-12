@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import {
+    buscarInfracoesPorPlaca,
+    deleteInfracao,
     listarInfracoes,
     recuperarAgentePorMatricula,
     recuperarInfracaoPorId,
@@ -10,6 +12,7 @@ import {
 } from "@/service/infracaoService";
 import { InfracaoRegister } from "@/type/InfracaoRegister";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface Veiculo {
     placa: string;
@@ -22,6 +25,7 @@ interface Veiculo {
 }
 
 interface Multa {
+    id: number;
     placa: string;
     data: string;
     hora: string;
@@ -33,6 +37,7 @@ interface Multa {
 const HomePage: React.FC = () => {
     const router = useRouter();
     const [multas, setMultas] = useState<Multa[]>([]);
+    const [pesquisa, setPesquisa] = useState("");
     const [loadingVeiculos, setLoadingVeiculos] = useState<boolean>(false);
     const [loadingMultas, setLoadingMultas] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -49,6 +54,7 @@ const HomePage: React.FC = () => {
                     const tipoInfracao = await recuperarInfracaoPorId(infracao.id_tipo_infracao);
 
                     newMultasOptions.push({
+                        id: infracao.id_infracao,
                         placa: infracao.placa_veiculo,
                         data: infracao.data,
                         hora: infracao.hora,
@@ -65,37 +71,89 @@ const HomePage: React.FC = () => {
         };
 
         fetchInfracao();
-
-        // Simulação de loading
         setLoadingVeiculos(true);
         setTimeout(() => {
             setLoadingVeiculos(false);
         }, 1000);
     }, []);
 
-    // Função para buscar as multas (simulada)
-    const fetchMultas = () => {
-        setLoadingMultas(true);
+
+    const fetchTodasInfracao = async () => {
         try {
+            const infracoesList = await listarInfracoes();
+            const newMultasOptions: Multa[] = [];
+
+            for (const infracao of infracoesList) {
+                const local = await recuperarLocalPorId(infracao.id_local);
+                const agente = await recuperarAgentePorMatricula(infracao.matricula_agente);
+                const tipoInfracao = await recuperarInfracaoPorId(infracao.id_tipo_infracao);
+
+                newMultasOptions.push({
+                    id: infracao.id_infracao,
+                    placa: infracao.placa_veiculo,
+                    data: infracao.data,
+                    hora: infracao.hora,
+                    local: local.nome,
+                    nomeAgente: agente.nome,
+                    tipoInfracao: tipoInfracao.nome,
+                });
+            }
+            setMultas(newMultasOptions);
+        } catch (err) {
+            console.error(err);
+            setError("Erro ao listar infrações.");
+        }
+    };
+
+
+    const fetchMultas = async () => {
+        setLoadingMultas(true);
+
+        try {
+
+            const infracoesList = await buscarInfracoesPorPlaca(pesquisa);
+
+           if (infracoesList.length === 0) {
+                toast.error("Nenhuma multa encontrada.");
+                return;
+           }
+            const newMultasOptions: Multa[] = [];
+            for (const infracao of infracoesList) {
+                const local = await recuperarLocalPorId(infracao.id_local);
+                const agente = await recuperarAgentePorMatricula(infracao.matricula_agente);
+                const tipoInfracao = await recuperarInfracaoPorId(infracao.id_tipo_infracao);
+
+                newMultasOptions.push({
+                    id: infracao.id_infracao,
+                    placa: infracao.placa_veiculo,
+                    data: infracao.data,
+                    hora: infracao.hora,
+                    local: local.nome,
+                    nomeAgente: agente.nome,
+                    tipoInfracao: tipoInfracao.nome,
+                });
+            }
+
+            // 3. Atualiza o estado com o resultado da busca
+            setMultas(newMultasOptions);
             setError(null);
         } catch (err) {
+            console.error(err);
+            toast.error("Erro ao carregar as multas.");
             setError("Erro ao carregar as multas.");
         } finally {
             setLoadingMultas(false);
         }
     };
 
-    // Exemplo de função para excluir
-    const handleDelete = async (placa: string) => {
+    const handleDelete = async (id: number) => {
         try {
-            // Se tiver um service específico para exclusão, chame-o aqui. Exemplo:
-            // await excluirInfracao(placa);
-            // Atualizar a lista de multas sem a que foi excluída:
-            setMultas((prevMultas) => prevMultas.filter((m) => m.placa !== placa));
-            alert(`Multa de placa ${placa} excluída com sucesso!`);
+            await deleteInfracao(id);
+            toast.success("Multa excluída com sucesso!");
+            setMultas((prevMultas) => prevMultas.filter((m) => m.id !== id));
         } catch (err) {
             console.error(err);
-            setError("Erro ao excluir a multa.");
+            toast.error("Erro ao excluir a multa.");
         }
     };
 
@@ -127,21 +185,18 @@ const HomePage: React.FC = () => {
                         id="search-input"
                         placeholder="Pesquisar multa..."
                         className="border-none p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-[#36f325]"
+                        onChange={(e) => setPesquisa(e.target.value)}
                     />
                     <button
                         id="search-button"
                         onClick={fetchMultas}
                         className="px-4 py-2 bg-[#333] text-white rounded hover:bg-[#555] transition duration-300"
-                    >
-                        Buscar
-                    </button>
+                    >Buscar</button>
                     <button
                         id="add-button"
                         className="px-4 py-2 bg-[#36f325] text-white rounded hover:bg-[#2fa022] transition duration-300"
                         onClick={() => router.push("/home/multa/cadastro")}
-                    >
-                        Nova multa
-                    </button>
+                    >Nova multa</button>
                 </div>
 
                 {/* Tabela de multas */}
@@ -149,6 +204,13 @@ const HomePage: React.FC = () => {
                     <h2 className="text-lg font-semibold mb-4 text-gray-800">
                         Multas cadastradas
                     </h2>
+
+                    <button
+                        id="search-button"
+                        onClick={() => fetchTodasInfracao()}
+                        className="px-4 py-2 bg-[#333] text-white rounded hover:bg-[#555] transition duration-300"
+                    >Mostar todas as multas
+                    </button>
 
                     <table className="w-full table-auto border-collapse text-sm">
                         <thead className="bg-[#d2cd6b] text-white">
@@ -177,7 +239,7 @@ const HomePage: React.FC = () => {
                                 <td className="border p-2 text-gray-700">
                                     <button
                                         className="px-2 py-1 rounded bg-red-500 text-white hover:bg-red-600"
-                                        onClick={() => handleDelete(multa.placa)}
+                                        onClick={() => handleDelete(multa.id)}
                                     >
                                         Excluir
                                     </button>
@@ -196,10 +258,6 @@ const HomePage: React.FC = () => {
                         ))}
                         </tbody>
                     </table>
-
-                    {/* Exibindo mensagens de erro ou estado de loading */}
-                    {error && <p className="text-red-500 mt-4">{error}</p>}
-                    {loadingMultas && <p className="text-blue-500 mt-4">Carregando multas...</p>}
                 </div>
             </div>
         </main>
