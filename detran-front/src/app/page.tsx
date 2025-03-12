@@ -36,6 +36,8 @@ const LoginPage = () => {
       const response = await login(data);
       if (response) {
         sessionStorage.setItem('access_token', response.access_token);
+        sessionStorage.setItem('nomeUsuario', response.usuario.toUpperCase());
+        console.log(response);
         router.push('/home');
         notifySuccess('Login efetuado com sucesso');
       }else {

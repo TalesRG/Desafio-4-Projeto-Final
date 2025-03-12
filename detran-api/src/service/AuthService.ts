@@ -42,6 +42,7 @@ export class AuthService {
     };
     this.logger.log('Usuario logado com sucesso');
     return {
+      usuario: usuario.nome,
       access_token: await this.jwtService.signAsync(payload),
     };
   }
