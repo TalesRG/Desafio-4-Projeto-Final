@@ -74,7 +74,7 @@ A pasta `home/` contém as principais páginas da aplicação:
 
 ### `global.css`
 
-- Contém os estilos globais do projeto.
+- Contém os estilos globais do projeto e estilização específica do `input` e `button`.
 
 ### `layout.tsx`
 
