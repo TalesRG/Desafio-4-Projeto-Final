@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 
 export const httpClient = axios.create({
@@ -22,7 +23,8 @@ httpClient.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            window.location.href = "/login";
+            window.location.href = "/";
+            toast.error('Erro no login');
         }
         return Promise.reject(error);
     }

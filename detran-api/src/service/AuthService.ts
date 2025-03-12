@@ -1,8 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthDto } from '../dto/AuthDto';
 import { UsuarioService } from './UsuarioService';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { EmailNotFoundException } from '../Exceptions/EmailNotFoundException';
 
 export interface UsuarioPayload {
   sub: number;
@@ -19,13 +24,16 @@ export class AuthService {
   async login(usuarioDto: AuthDto) {
     const usuario = await this.usuarioService.buscarEmail(usuarioDto.email);
     if (!usuario) {
-      throw new Error('Email não cadastrado');
+      throw new EmailNotFoundException(usuarioDto.email);
     }
     const senhaInserida = usuarioDto.senha;
 
     const senhaCorreta = usuario.senha;
 
-    const usuarioAutenticado = bcrypt.compare(senhaInserida, senhaCorreta);
+    const usuarioAutenticado = await bcrypt.compare(
+      senhaInserida,
+      senhaCorreta,
+    );
     if (!usuarioAutenticado) {
       throw new UnauthorizedException('O email ou a senha estão incorretos');
     }
