@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
- // Importa os estilos globais
 
+//Teste
 export default function Home() {
   const [veiculos, setVeiculos] = useState([
     {
