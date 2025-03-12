@@ -2,12 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import GenericInput from '@/app/ui/generic-form';
-import GenericSelect from '@/app/ui/home/dropdown-api';
 import Button from '@/app/ui/button';
-import { VeiculoRegister } from "@/type/VeiculoRegister";
-import { cadastrarVeiculo } from "@/service/veiculoService";
-import {listarInfracoes} from "@/service/infracaoService";
-import {InfracaoRegister} from "@/type/InfracaoRegister";
 import {ProprietarioRegister} from "@/type/ProprietarioRegister";
 import SelectComponent from "@/app/ui/forms/selectComponent";
 import {listarProprietarios} from "@/service/proprietarioService";
@@ -26,11 +21,7 @@ const CadastroVeiculo = () => {
     const [ano, setAno] = useState('');
     const [cor, setCor] = useState('');
     const [modelo, setModelo] = useState('');
-
     const [proprietarioOptions, setProprietarioOptions] = useState<{ label: string; value: string }[]>([]);
-    const [proprietario, setProprietario] = useState('');
-
-    const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -63,6 +54,7 @@ const CadastroVeiculo = () => {
         e.preventDefault();
         try {
             if (!placa || !cpf || !categoria || !chassi || !ano || !cor || !modelo) {
+                console.log(placa, cpf, categoria, chassi, ano, cor, modelo);
                 toast.error('Preencha todos os campos');
                 return;
             }
@@ -103,7 +95,7 @@ const CadastroVeiculo = () => {
                 <SelectComponent
                     options={proprietarioOptions}
                     label={"Proprietário"}
-                    onChange={setProprietario}
+                    onChange={(value) => setCpf(value)}
                     className="flex flex-col gap-2 mb-5"
                     loading={loading}
                     error={error}
