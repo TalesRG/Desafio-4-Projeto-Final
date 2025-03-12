@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import "./globals.css"; // Importa os estilos globais
+ // Importa os estilos globais
 
 export default function Home() {
   const [veiculos, setVeiculos] = useState([
@@ -28,41 +28,34 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Simulação de dados carregando, já que a API ainda não está disponível
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 1000); // Simula o carregamento de dados
+    }, 1000);
   }, []);
 
   return (
-    <main>
-      {/* Cabeçalho */}
-      <header className="header">
-        <h1>Veículos cadastrados</h1>
-        <Image src="/assets/detran-logo.png" alt="Detran Logo" width={100} height={50} />
-      </header>
-
+    <main className="bg-yellow-200 p-10 min-h-screen text-center">
       {/* Imagem do carro */}
-      <div className="user">
-        <Image src="/assets/carro.png" alt="Carro" width={80} height={70} />
-        <strong><p>Veículo</p></strong>
+      <div className="mt-5">
+        <Image src="/assets/carro.png" alt="Carro" width={80} height={70} className="mx-auto" />
+        <strong><p>Veículos cadastrados</p></strong>
       </div>
 
       {/* Barra de pesquisa */}
-      <div className="search-container">
-        <input type="text" id="search-input" placeholder="Pesquisar..." />
-        <button id="search-button">Buscar</button>
-        <button id="add-button">Novo veículo</button>
+      <div className="flex items-center border-2 border-gray-300 p-3 rounded-md bg-white mx-auto w-[80%] mt-5">
+        <input type="text" id="search-input" placeholder="Pesquisar..." className="border-none p-2 flex-grow rounded-md" />
+        <button id="search-button" className="bg-gray-800 text-white px-3 py-2 rounded-md ml-2 hover:bg-gray-600">Buscar</button>
+        <button id="add-button" className="bg-green-500 text-white px-3 py-2 rounded-md ml-2 hover:bg-green-700">Novo veículo</button>
       </div>
-      <div id="search-results"></div>
+      <div id="search-results" className="mt-5"></div>
 
       {/* Tabela de veículos */}
-      <div className="info-container">
-        <div className="info-box">
-          <h2>Veículos</h2>
-
+      <div className="grid justify-center p-5">
+      <div className="info-box bg-[#f0f0f0] p-5 rounded shadow-md">
+        <div className="bg-gray-200 p-5 rounded-xl shadow-md w-full max-w-4xl mx-auto mt-5">
+          <h2 className="bg-yellow-600 text-white p-3 rounded-xl text-lg mb-2">Dados</h2>
           {loading ? (
             <p>Carregando veículos...</p>
           ) : error ? (
@@ -70,35 +63,35 @@ export default function Home() {
           ) : veiculos.length === 0 ? (
             <p>Nenhum veículo encontrado.</p>
           ) : (
-            <table>
+            <table className="w-full border-collapse text-lg mt-5 rounded-xl">
               <thead>
-                <tr>
-                  <th>Placa</th>
-                  <th>CPF do Proprietário</th>
-                  <th>Categoria</th>
-                  <th>Chassi</th>
-                  <th>Ano</th>
-                  <th>Cor</th>
-                  <th>Modelo</th>
-                  <th>Editar</th>
-                  <th>Excluir</th>
+                <tr className="bg-yellow-600 text-white">
+                  <th className="p-3 border">Placa</th>
+                  <th className="p-3 border">CPF do Proprietário</th>
+                  <th className="p-3 border">Categoria</th>
+                  <th className="p-3 border">Chassi</th>
+                  <th className="p-3 border">Ano</th>
+                  <th className="p-3 border">Cor</th>
+                  <th className="p-3 border">Modelo</th>
+                  <th className="p-3 border">Editar</th>
+                  <th className="p-3 border">Excluir</th>
                 </tr>
               </thead>
               <tbody>
                 {veiculos.map((veiculo, index) => (
-                  <tr key={index}>
-                    <td>{veiculo.placa}</td>
-                    <td>{veiculo.cpf}</td>
-                    <td>{veiculo.categoria}</td>
-                    <td>{veiculo.chassi}</td>
-                    <td>{veiculo.ano}</td>
-                    <td>{veiculo.cor}</td>
-                    <td>{veiculo.modelo}</td>
-                    <td>
-                      <button>✏️</button>
+                  <tr key={index} className="border">
+                    <td className="p-3 border">{veiculo.placa}</td>
+                    <td className="p-3 border">{veiculo.cpf}</td>
+                    <td className="p-3 border">{veiculo.categoria}</td>
+                    <td className="p-3 border">{veiculo.chassi}</td>
+                    <td className="p-3 border">{veiculo.ano}</td>
+                    <td className="p-3 border">{veiculo.cor}</td>
+                    <td className="p-3 border">{veiculo.modelo}</td>
+                    <td className="p-3 border">
+                      <button className="text-blue-500">✏️</button>
                     </td>
-                    <td>
-                      <button>🗑️</button>
+                    <td className="p-3 border">
+                      <button className="text-red-500">🗑️</button>
                     </td>
                   </tr>
                 ))}
@@ -106,9 +99,10 @@ export default function Home() {
             </table>
           )}
         </div>
+        </div>
       </div>
 
-      <footer>
+      <footer className="mt-10 text-gray-700">
         <p>&copy; 2025 - Sistema de Informações DETRAN-DF</p>
       </footer>
     </main>
