@@ -84,8 +84,8 @@ theme:
   font:
     text: Ubuntu 
     code: Ubuntu Mono
-  favicon: assets/unb-logo.png
-  logo: assets/unb-logo.png
+  favicon: assets/detran-small-logo.png
+  logo: assets/detran-logo.png
 
 # Plugins
 plugins:
