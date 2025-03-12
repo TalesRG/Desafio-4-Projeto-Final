@@ -97,5 +97,4 @@ A pasta `home/` contém as principais páginas da aplicação:
 - **Tipagem Estrita**: Uso de TypeScript para maior segurança no desenvolvimento.
 
 ## Conclusão
-A estrutura de rotas do projeto facilita a organização, garantindo um desenvolvimento escalável e modular. Para manter a padronização, novas rotas devem ser organizadas seguindo essa hierarquia e boas práticas. Caso precise adicionar novas seções, utilize os diretórios existentes para manter a consistência do código.
-
+A estrutura de rotas do projeto facilita a organização, garantindo um desenvolvimento escalável e modular. 
