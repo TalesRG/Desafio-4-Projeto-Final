@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { VeiculoDto } from '../dto/VeiculoDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VeiculoEntity } from '../entity/VeiculoEntity';
@@ -10,9 +10,14 @@ export class VeiculoService {
     @InjectRepository(VeiculoEntity)
     private veiculoRepository: Repository<VeiculoEntity>,
   ) {}
-
+  private readonly logger = new Logger(VeiculoService.name);
   async create(veiculoDto: VeiculoDto): Promise<VeiculoEntity> {
-    console.log('Iniciando criação de veículo');
+    this.logger.log('Iniciando verificação de placa');
+    if (await this.verificarPlaca(veiculoDto.placa)) {
+      this.logger.log('Erro ao criar veículo');
+      throw new Error('Veiculo já cadastrada');
+    }
+    this.logger.log('Iniciando criação de veículo');
     const novoVeiculo = new VeiculoEntity();
     novoVeiculo.placa = veiculoDto.placa;
     novoVeiculo.modelo = veiculoDto.modelo;
@@ -22,10 +27,22 @@ export class VeiculoService {
     novoVeiculo.chassi = veiculoDto.chassi;
     novoVeiculo.cpf_proprietario = veiculoDto.cpf_proprietario;
 
+    this.logger.log('Veículo criado com sucesso');
     return await this.veiculoRepository.save(novoVeiculo);
   }
 
   async findAll(): Promise<VeiculoEntity[]> {
     return await this.veiculoRepository.find();
+  }
+
+  private async verificarPlaca(placa: string) {
+    const placaExistente = await this.veiculoRepository.findOne({
+      where: { placa },
+    });
+
+    if (placaExistente) {
+      return true;
+    }
+    return false;
   }
 }

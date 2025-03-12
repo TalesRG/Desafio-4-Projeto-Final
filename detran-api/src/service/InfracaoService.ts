@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InfracaoEntity } from '../entity/InfracaoEntity';
@@ -11,7 +11,10 @@ export class InfracaoService {
     private readonly infracaoRepository: Repository<InfracaoEntity>,
   ) {}
 
+  private readonly logger = new Logger(InfracaoService.name);
+
   async create(infracaoDto: InfracaoDto) {
+    this.logger.log('Iniciando criação de infração');
     const novaInfracao = new InfracaoEntity();
     novaInfracao.data = infracaoDto.data;
     novaInfracao.hora = infracaoDto.hora;
@@ -21,6 +24,7 @@ export class InfracaoService {
     novaInfracao.id_tipo_infracao = infracaoDto.id_tipo_infracao;
 
     try {
+      this.logger.log('Salvando infração');
       return await this.infracaoRepository.save(novaInfracao);
     } catch (error) {
       throw new Error(error);

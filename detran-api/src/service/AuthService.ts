@@ -1,8 +1,4 @@
-import {
-  HttpException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { AuthDto } from '../dto/AuthDto';
 import { UsuarioService } from './UsuarioService';
 import * as bcrypt from 'bcrypt';
@@ -20,8 +16,10 @@ export class AuthService {
     private usuarioService: UsuarioService,
     private jwtService: JwtService,
   ) {}
+  private readonly logger = new Logger(AuthService.name);
 
   async login(usuarioDto: AuthDto) {
+    this.logger.log('Tentando logar');
     const usuario = await this.usuarioService.buscarEmail(usuarioDto.email);
     if (!usuario) {
       throw new EmailNotFoundException(usuarioDto.email);
@@ -42,7 +40,7 @@ export class AuthService {
       sub: usuario.id_usuario,
       nomeUsuario: usuario.nome,
     };
-    console.log('Usuario logado com sucesso');
+    this.logger.log('Usuario logado com sucesso');
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
