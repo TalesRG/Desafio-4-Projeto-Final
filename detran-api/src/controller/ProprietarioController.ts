@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ProprietarioService } from '../service/ProprietarioService';
 import ProprietarioDto from '../dto/ProprietarioDto';
 import { AutenticacaoGuard } from '../guards/AutenticacaoGuard';
@@ -18,5 +26,15 @@ export class ProprietarioController {
   @Get('/all')
   async listarTodosProprietarios(): Promise<any> {
     return this.proprietarioService.findAll();
+  }
+
+  @Delete('/delete/:cpf')
+  async deleteProprietario(@Param('cpf') cpf: string): Promise<any> {
+    return this.proprietarioService.delete(cpf);
+  }
+
+  @Get('/find/:cpf')
+  async findProprietario(@Param('cpf') cpf: string): Promise<any> {
+    return this.proprietarioService.findOne(cpf);
   }
 }

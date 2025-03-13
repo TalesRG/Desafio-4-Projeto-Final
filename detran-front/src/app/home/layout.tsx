@@ -20,26 +20,19 @@ const Sidebar = () => {
             className={`
         flex flex-col items-center p-4 transition-all duration-300
         ${isOpen ? "md:w-64 w-48" : "w-16"}
-        bg-[var(--side-bar-background)] 
+        bg-[var(--side-bar-background)]
       `}
         >
             {/* Logo e Botão de Toggle */}
             <div className="flex justify-between items-center w-full mb-6">
                 <div className="hidden md:block">
-                    <Link href="/home">
-                        {isOpen && <DetranLogo />}
-                    </Link>
+                    <Link href="/home">{isOpen && <DetranLogo />}</Link>
                 </div>
                 <button
                     className="hover:bg-[var(--item-selected)] p-2 rounded-md"
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    <Image
-                        src="/menu-bar.svg"
-                        width={24}
-                        height={24}
-                        alt="Menu"
-                    />
+                    <Image src="/menu-bar.svg" width={24} height={24} alt="Menu" />
                 </button>
             </div>
 
@@ -104,11 +97,15 @@ export default function RootLayout({
           Contêiner flex que ocupa a tela inteira:
           - min-h-screen: altura mínima = 100% da viewport
           - w-screen: largura total da viewport
-          - bg-gradient-to-br ...: exemplo de gradiente (opcional)
+          - bg-[var(--background)]: cor de fundo
         */}
         <div className="flex min-h-screen w-screen bg-[var(--background)]">
             <Sidebar />
-            <main className="flex-1 p-6 md:p-10 overflow-auto">
+            {/*
+            Substitua `overflow-auto` por `overflow-y-auto overflow-x-hidden`.
+            Assim, só existirá rolagem vertical; a rolagem horizontal é oculta.
+          */}
+            <main className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden">
                 {children}
             </main>
         </div>
