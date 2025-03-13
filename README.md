@@ -31,6 +31,16 @@ Para rodar o projeto, é necessário ter os seguintes requisitos instalados:
    cp .env.example .env
    ```
    - **`cp .env.example .env`**: Copia o arquivo de exemplo `.env.example` para `.env`, garantindo que todas as variáveis de ambiente necessárias estejam configuradas corretamente.
+  
+   - cole dentro do env
+  - SECRET_JWT = "secretKey"
+  - HOST_DB = "localhost"
+  - PORT_DB = 3306
+  - DB_USER = "root"
+  - PASSWORD = "root"
+  - PORT = 3001
+
+    
 3. Execute os seguintes comandos:
    ```sh
    docker compose up -d
