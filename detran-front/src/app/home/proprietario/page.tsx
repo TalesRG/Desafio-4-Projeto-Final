@@ -4,11 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-// Serviços específicos para PROPRIETÁRIO
 import {
-    buscarProprietario,
     deletarProprietario,
-    listarProprietarios /*, buscarProprietarioPorCpf, deletarProprietario */
+    listarProprietarios
 } from "@/service/proprietarioService";
 
 import "@/app/globals.css";
@@ -30,19 +28,15 @@ interface Proprietario {
 const HomePage: React.FC = () => {
     const router = useRouter();
 
-    // Lista de proprietários
     const [proprietarios, setProprietarios] = useState<Proprietario[]>([]);
 
-    // Campo de pesquisa (ex.: CPF)
+
     const [pesquisa, setPesquisa] = useState("");
 
-    // Controle de loading e erros
+
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    // --------------------------------------------------------------------------------
-    // 1) Carrega todos os proprietários ao montar o componente
-    // --------------------------------------------------------------------------------
     useEffect(() => {
         const carregarProprietarios = async () => {
             setLoading(true);
@@ -61,9 +55,6 @@ const HomePage: React.FC = () => {
         carregarProprietarios();
     }, []);
 
-    // --------------------------------------------------------------------------------
-    // 2) Pesquisa por CPF (exemplo local)
-    // --------------------------------------------------------------------------------
     const handleBuscar = () => {
         // Se não tiver nada no campo de pesquisa, avisa o usuário ou simplesmente retorna
         if (!pesquisa.trim()) {
@@ -71,7 +62,6 @@ const HomePage: React.FC = () => {
             return;
         }
 
-        // Filtra a partir da lista original
         const filtrados = proprietarios.filter((p) =>
             p.cpf.includes(pesquisa)
         );

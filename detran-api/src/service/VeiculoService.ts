@@ -45,4 +45,8 @@ export class VeiculoService {
     }
     return false;
   }
+
+  async delete(placa: string): Promise<any> {
+    return await this.veiculoRepository.delete({ placa });
+  }
 }

@@ -19,3 +19,12 @@ export const listarVeiculos = async () => {
         return e.response.data;
     }
 }
+
+export const deletarVeiculo = async (placa : string) => {
+    try {
+        const response = await httpClient.delete(`/veiculo/delete/${placa}`);
+        return response.data;
+    }catch (e : any) {
+        return e.response.data;
+    }
+}
