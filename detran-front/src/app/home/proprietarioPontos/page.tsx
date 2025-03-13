@@ -42,7 +42,10 @@ const HomePage: React.FC = () => {
             setLoading(true);
             try {
                 const proprietarioList = await listarProprietarios();
-                setProprietarios(proprietarioList);
+                const filtrados = proprietarioList.filter(
+                    (p : any) => p.pontos_na_carteira >= 10
+                );
+                setProprietarios(filtrados);
                 setError(null);
             } catch (err) {
                 console.error(err);
@@ -55,27 +58,10 @@ const HomePage: React.FC = () => {
         carregarProprietarios();
     }, []);
 
-    const handleBuscar = () => {
-        // Se não tiver nada no campo de pesquisa, avisa o usuário ou simplesmente retorna
-        if (!pesquisa.trim()) {
-            toast.error("Digite um CPF para buscar.");
-            return;
-        }
-
-        const filtrados = proprietarios.filter((p) =>
-            p.cpf.includes(pesquisa)
-        );
-
-        if (filtrados.length === 0) {
-            toast.error("Nenhum proprietário encontrado para esse CPF.");
-        }
-
-        setProprietarios(filtrados);
-    };
 
     const handleDelete = async (cpf: string) => {
         try {
-             await deletarProprietario(cpf);
+            await deletarProprietario(cpf);
             setProprietarios((prev) => prev.filter((p) => p.cpf !== cpf));
             toast.success("Proprietário excluído com sucesso!");
         } catch (err) {
@@ -90,20 +76,6 @@ const HomePage: React.FC = () => {
         router.push(`/home/proprietario/editar?cpf=${cpf}`);
     };
 
-
-    const handleMostrarTodos = async () => {
-        try {
-            setLoading(true);
-            const proprietarioList = await listarProprietarios();
-            setProprietarios(proprietarioList);
-            setError(null);
-        } catch (err) {
-            console.error(err);
-            setError("Erro ao listar proprietários.");
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <main className="flex flex-col items-center py-10 px-4">
@@ -120,43 +92,11 @@ const HomePage: React.FC = () => {
                     </strong>
                 </div>
 
-                {/* Barra de pesquisa */}
-                <div className="flex items-center space-x-2 border border-[#ccc] p-2 rounded bg-white mb-6">
-                    <input
-                        type="text"
-                        placeholder="Pesquisar por CPF..."
-                        className="border-none p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-[#36f325]"
-                        value={pesquisa}
-                        onChange={(e) => setPesquisa(e.target.value)}
-                    />
-                    <button
-                        onClick={handleBuscar}
-                        className="cursor-pointer px-4 py-2 bg-[#333] text-white rounded hover:bg-[#555] transition duration-300"
-                    >
-                        Buscar
-                    </button>
-
-                    {/* Botão para adicionar um novo proprietário */}
-                    <button
-                        className="cursor-pointer px-4 py-2 bg-[var(--button-color)] text-white rounded hover:bg-[var(--button-color-hover)] transition duration-300"
-                        onClick={() => router.push("/home/proprietario/cadastro")}
-                    >
-                        Novo Proprietário
-                    </button>
-                </div>
-
                 {/* Tabela de proprietários */}
                 <div className="bg-white p-6 rounded shadow-md">
                     <h2 className="text-lg font-semibold mb-4 text-gray-800">
-                        Lista de Proprietários
+                        Proprietários com 10 ou mais pontos na carteira
                     </h2>
-
-                    <button
-                        onClick={handleMostrarTodos}
-                        className="cursor-pointer mb-2 px-4 py-2 bg-[#333] text-white rounded hover:bg-[#555] transition duration-300"
-                    >
-                        Mostrar todos
-                    </button>
 
 
 

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
 import NavigationLink from "@/app/ui/home/navegation-link";
@@ -6,41 +6,38 @@ import LogoutButton from "@/app/ui/home/logout-button";
 import Image from "next/image";
 import Link from "next/link";
 import DetranLogo from "@/app/ui/detran-logo";
-import '../globals.css';
-import { geistSans } from '@/app/ui/fonts';
+import "../globals.css";
+import { geistSans } from "@/app/ui/fonts";
 
-
+// --------------------
+//   BARRA LATERAL
+// --------------------
 const Sidebar = () => {
-    const [isOpen, setIsOpen] = useState(false); // Sidebar state
+    const [isOpen, setIsOpen] = useState(false); // Estado de abertura da sidebar
 
     return (
         <div
-            className={`${isOpen ? "md:w-80 w-fit" : "w-fit"
-                } bg-[var(--side-bar-background)] p-2 md:p-8 items-center flex flex-col transition-all duration-300`}
+            className={`
+        flex flex-col items-center p-4 transition-all duration-300
+        ${isOpen ? "md:w-64 w-48" : "w-16"}
+        bg-[var(--side-bar-background)]
+      `}
         >
-            {/* Logo and Toggle Button */}
-            <div className="flex justify-between pb-4">
+            {/* Logo e Botão de Toggle */}
+            <div className="flex justify-between items-center w-full mb-6">
                 <div className="hidden md:block">
-                    <Link href="/home">
-                        {isOpen && <DetranLogo />}
-                    </Link>
+                    <Link href="/home">{isOpen && <DetranLogo />}</Link>
                 </div>
                 <button
-                    className="hover:bg-[var(--item-selected)] p-1 rounded-md transition-all duration-300"
+                    className="hover:bg-[var(--item-selected)] p-2 rounded-md"
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    <Image
-                        src="/menu-bar.svg"
-                        width={30}
-                        height={30}
-                        alt="Menu"
-                        className="cursor-pointer justify-self-end"
-                    />
+                    <Image src="/menu-bar.svg" width={24} height={24} alt="Menu" />
                 </button>
             </div>
 
-            {/* Navigation Links */}
-            <nav className="mt-10 space-y-6 text-black">
+            {/* Links de navegação */}
+            <nav className="flex flex-col gap-4 mt-4 w-full">
                 <NavigationLink
                     href="/home"
                     iconSrc="/home.svg"
@@ -71,8 +68,8 @@ const Sidebar = () => {
                 />
             </nav>
 
-            {/* Logout Button */}
-            <div className="mt-auto">
+            {/* Botão de Logout - alinhado embaixo */}
+            <div className="mt-auto w-full">
                 <LogoutButton
                     href="/"
                     iconSrc="/exit.svg"
@@ -85,21 +82,34 @@ const Sidebar = () => {
     );
 };
 
+// --------------------
+//   ROOT LAYOUT
+// --------------------
 export default function RootLayout({
-    children,
-}: {
+                                       children,
+                                   }: {
     children: React.ReactNode;
 }) {
     return (
         <html lang="pt-br">
-            <body className={`${geistSans.className} antialiased bg-[var(--background)]`}>
-                <div className="flex flex-row h-full md:h-screen">
-                    <Sidebar />
-                    <main className="flex-1 p-10 md:p-20">
-                        {children}
-                    </main>
-                </div>
-            </body>
+        <body className={`${geistSans.className} antialiased`}>
+        {/*
+          Contêiner flex que ocupa a tela inteira:
+          - min-h-screen: altura mínima = 100% da viewport
+          - w-screen: largura total da viewport
+          - bg-[var(--background)]: cor de fundo
+        */}
+        <div className="flex min-h-screen w-screen bg-[var(--background)]">
+            <Sidebar />
+            {/*
+            Substitua `overflow-auto` por `overflow-y-auto overflow-x-hidden`.
+            Assim, só existirá rolagem vertical; a rolagem horizontal é oculta.
+          */}
+            <main className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden">
+                {children}
+            </main>
+        </div>
+        </body>
         </html>
     );
 }

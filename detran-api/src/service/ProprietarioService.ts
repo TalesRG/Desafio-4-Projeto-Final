@@ -47,6 +47,22 @@ export class ProprietarioService {
     return await this.proprietarioRepository.find();
   }
 
+  async findOne(cpf: string): Promise<ProprietarioEntity> {
+    this.logger.log('Buscando proprietário');
+    const proprietario = await this.proprietarioRepository.findOne({
+      where: { cpf },
+    });
+
+    if (!proprietario) {
+      throw new HttpException(
+        'Proprietário não encontrado',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    this.logger.log('Proprietário encontrado');
+    return proprietario;
+  }
+
   async verificarCpf(cpf: string) {
     const cpfExistente = await this.proprietarioRepository.findOne({
       where: { cpf },
@@ -67,5 +83,23 @@ export class ProprietarioService {
       return true;
     }
     return false;
+  }
+
+  async delete(cpf: string) {
+    this.logger.log('Iniciando exclusão de proprietário');
+    const proprietario = await this.proprietarioRepository.findOne({
+      where: { cpf },
+    });
+
+    if (!proprietario) {
+      throw new HttpException(
+        'Proprietário não encontrado',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    this.logger.log('Proprietário encontrado');
+    this.logger.log('Iniciando exclusão de proprietário');
+    return await this.proprietarioRepository.remove(proprietario);
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Post, UseGuards } from '@nestjs/common';
 import { VeiculoDto } from '../dto/VeiculoDto';
 import { VeiculoService } from '../service/VeiculoService';
 import { AutenticacaoGuard } from '../guards/AutenticacaoGuard';
@@ -16,5 +16,10 @@ export class VeiculoController {
   @Post('all')
   async listarTodosVeiculos(): Promise<any> {
     return this.veiculoService.findAll();
+  }
+
+  @Delete('delete/:placa')
+  async deleteVeiculo(@Body('placa') placa: string): Promise<any> {
+    return this.veiculoService.delete(placa);
   }
 }

@@ -34,4 +34,20 @@ export class InfracaoService {
   async findAll(): Promise<any> {
     return await this.infracaoRepository.find();
   }
+
+  async delete(id: number) {
+    this.logger.log('Iniciando exclusão de infração');
+    try {
+      this.logger.log('Excluindo infração');
+      return await this.infracaoRepository.delete(id);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async findByPlaca(placa: string) {
+    return await this.infracaoRepository.find({
+      where: { placa_veiculo: placa },
+    });
+  }
 }

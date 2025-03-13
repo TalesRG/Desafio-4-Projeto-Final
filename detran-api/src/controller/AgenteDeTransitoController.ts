@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { AutenticacaoGuard } from '../guards/AutenticacaoGuard';
 import { AgenteDeTransitoService } from '../service/AgenteDeTransitoService';
 
@@ -12,5 +12,10 @@ export class AgenteDeTransitoController {
   @Get('/all')
   async listarTodosAgentesDeTransito(): Promise<any> {
     return this.agenteDeTransitoService.listarAgentes();
+  }
+
+  @Get('/buscar/:matricula')
+  async buscarAgenteDeTransito(@Param('matricula') matricula: string) {
+    return this.agenteDeTransitoService.buscarAgente(matricula);
   }
 }

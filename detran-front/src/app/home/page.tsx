@@ -37,6 +37,14 @@ const DashboardPage = () => {
           title="Proprietário"
           description="Gerencie seus dados de proprietário do veículo."
         />
+
+          <CardLink
+              href="/home/proprietarioPontos"
+              iconSrc="/pontos.png"
+              altText="Owner Icon"
+              title="Pontos Proprietário"
+              description="Veja proprietarios com 10 ou mais pontos na carteira."
+          />
       </div>
     </div>
   );

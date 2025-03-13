@@ -24,12 +24,12 @@ import { LocalModule } from './module/LocalModule';
       type: 'mysql',
       host: String(process.env.HOST_DB), // ADICIONAR AO .ENV FUTURAMENTE
       port: Number(process.env.PORT_DB), // ADICIONAR AO .ENV FUTURAMENTE
-      username: String(process.env.USER), // ADICIONAR AO .ENV FUTURAMENTE
+      username: String(process.env.DB_USER), // ADICIONAR AO .ENV FUTURAMENTE
       password: String(process.env.PASSWORD), // ADICIONAR AO .ENV FUTURAMENTE
       database: 'detran', // ADICIONAR AO .ENV FUTURAMENTE
       entities: [__dirname + '/entity/**/*{.ts,.js}'],
       migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
       migrationsRun: true,
     }),
   ],

@@ -19,3 +19,21 @@ export const listarProprietarios = async () => {
         return e.response.data;
     }
 }
+
+export const buscarProprietario = async (cpf : string) => {
+    try {
+        const response = await httpClient.get(`/proprietario/find/${cpf}`);
+        return response.data;
+    }catch (e : any) {
+        return e.response.data;
+    }
+}
+
+export const deletarProprietario = async (cpf : string) => {
+    try {
+        const response = await httpClient.delete(`/proprietario/delete/${cpf}`);
+        return response.data;
+    }catch (e : any) {
+        return e.response.data;
+    }
+}
