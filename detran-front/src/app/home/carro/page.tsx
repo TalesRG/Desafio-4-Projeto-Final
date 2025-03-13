@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import "@/app/globals.css";
-import {deletarVeiculo, listarVeiculos} from "@/service/veiculoService";
+import { deletarVeiculo, listarVeiculos } from "@/service/veiculoService";
 
 interface Veiculo {
     placa: string;
@@ -124,7 +124,7 @@ const HomePage: React.FC = () => {
 
                     {/* Botão para adicionar um novo proprietário */}
                     <button
-                        className="cursor-pointer px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition duration-300"
+                        className="cursor-pointer px-4 py-2 bg-[var(--button-color)] text-white rounded hover:bg-[var(--button-color-hover)] transition duration-300"
                         onClick={() => router.push("/home/carro/cadastro")}
                     >
                         Novo veiculo
@@ -151,50 +151,50 @@ const HomePage: React.FC = () => {
                     <div>
                         <table className="table-fixed w-full border-collapse text-sm">
                             <thead className="bg-[#d2cd6b] text-white">
-                            <tr>
-                                <th className="p-3 border">Placa</th>
-                                <th className="p-3 border">CPF do Proprietário</th>
-                                <th className="p-3 border">Categoria</th>
-                                <th className="p-3 border">Chassi</th>
-                                <th className="p-3 border">Ano</th>
-                                <th className="p-3 border">Cor</th>
-                                <th className="p-3 border">Modelo</th>
-                                <th className="p-3 border">Editar</th>
-                                <th className="p-3 border">Excluir</th>
-                            </tr>
+                                <tr>
+                                    <th className="p-3 border">Placa</th>
+                                    <th className="p-3 border">CPF do Proprietário</th>
+                                    <th className="p-3 border">Categoria</th>
+                                    <th className="p-3 border">Chassi</th>
+                                    <th className="p-3 border">Ano</th>
+                                    <th className="p-3 border">Cor</th>
+                                    <th className="p-3 border">Modelo</th>
+                                    <th className="p-3 border">Editar</th>
+                                    <th className="p-3 border">Excluir</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {veiculos.map((veiculo, index) => (
-                                <tr key={index} className="even:bg-[#f9f9f9]">
-                                    <td className="p-3 border">{veiculo.placa}</td>
-                                    <td className="p-3 border">{veiculo.cpf_proprietario}</td>
-                                    <td className="p-3 border">{veiculo.categoria}</td>
-                                    <td className="p-3 border">{veiculo.chassi}</td>
-                                    <td className="p-3 border">{veiculo.ano}</td>
-                                    <td className="p-3 border">{veiculo.cor}</td>
-                                    <td className="p-3 border">{veiculo.modelo}</td>
+                                {veiculos.map((veiculo, index) => (
+                                    <tr key={index} className="even:bg-[#f9f9f9]">
+                                        <td className="p-3 border">{veiculo.placa}</td>
+                                        <td className="p-3 border">{veiculo.cpf_proprietario}</td>
+                                        <td className="p-3 border">{veiculo.categoria}</td>
+                                        <td className="p-3 border">{veiculo.chassi}</td>
+                                        <td className="p-3 border">{veiculo.ano}</td>
+                                        <td className="p-3 border">{veiculo.cor}</td>
+                                        <td className="p-3 border">{veiculo.modelo}</td>
 
-                                    {/* Botão de Editar */}
-                                    <td className="border p-2 text-gray-700 whitespace-normal break-words">
-                                        <button
-                                            className="px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
-                                            onClick={() => handleEdit(veiculo.placa)}
-                                        >
-                                            Editar
-                                        </button>
-                                    </td>
+                                        {/* Botão de Editar */}
+                                        <td className="border p-2 text-gray-700 whitespace-normal break-words">
+                                            <button
+                                                className="px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
+                                                onClick={() => handleEdit(veiculo.placa)}
+                                            >
+                                                Editar
+                                            </button>
+                                        </td>
 
-                                    {/* Botão de Excluir */}
-                                    <td className="border p-2 text-gray-700 whitespace-normal break-words">
-                                        <button
-                                            className="px-2 py-1 rounded bg-red-500 text-white hover:bg-red-600"
-                                            onClick={() => handleDelete(veiculo.placa)}
-                                        >
-                                            Excluir
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                                        {/* Botão de Excluir */}
+                                        <td className="border p-2 text-gray-700 whitespace-normal break-words">
+                                            <button
+                                                className="px-2 py-1 rounded bg-red-500 text-white hover:bg-red-600"
+                                                onClick={() => handleDelete(veiculo.placa)}
+                                            >
+                                                Excluir
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
