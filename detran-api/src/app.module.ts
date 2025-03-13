@@ -29,8 +29,8 @@ import { LocalModule } from './module/LocalModule';
       database: 'detran', // ADICIONAR AO .ENV FUTURAMENTE
       entities: [__dirname + '/entity/**/*{.ts,.js}'],
       migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-      synchronize: true,
-      migrationsRun: false,
+      synchronize: false,
+      migrationsRun: true,
     }),
   ],
   controllers: [],

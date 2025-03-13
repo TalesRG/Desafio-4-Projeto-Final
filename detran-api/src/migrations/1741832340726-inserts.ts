@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Inserts1741784774569 implements MigrationInterface {
+export class Inserts1741832340726 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Inserção condicional na tabela de locais com INSERT IGNORE
     await queryRunner.query(`
